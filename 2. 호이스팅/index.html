@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>문서 제목</title>
+  </head>
+  <body>
+    <script>
+      let global = "나는 전역 변수입니다.";
+
+      function outerFunction() {
+        let outer = "나는 외부 함수의 변수입니다.";
+
+        function innerFunction() {
+          let inner = "나는 내부 함수의 변수입니다.";
+
+          console.log(global); // 나는 전역 변수입니다.
+          console.log(outer); // 나는 외부 함수의 변수입니다.
+          console.log(inner); // 나는 내부 함수의 변수 입니다.
+        }
+
+        innerFunction();
+        console.log(global); // 나는 전역 변수입니다.
+        console.log(outer); // 나는 외부 함수의 변수입니다.
+        // console.log(inner); // 오류(지역 스코프에 접근할 수 없음)
+      }
+
+      outerFunction();
+    </script>
+  </body>
+</html>

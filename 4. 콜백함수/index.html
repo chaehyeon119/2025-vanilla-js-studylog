@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>문서 제목</title>
+  </head>
+  <body>
+    <script>
+      // 콜백함수
+
+      const printResult1 = (a, b) => {
+        let result = a + b;
+        console.log("결과: " + result);
+      };
+
+      const doubleResult1 = (a, b) => {
+        let result = a + b;
+        console.log("결과에 2를 곱한 값: " + result * 2);
+      };
+
+      printResult1(5, 3);
+      doubleResult1(5, 3);
+
+      // 콜백함수로 변경한 코드
+      const calcuate = (a, b, callback) => {
+        let result = a + b;
+        callback(result);
+      };
+
+      const printResult = (result) => {
+        console.log("결과: " + result);
+      };
+
+      const doubleResult = (result) => {
+        console.log("결과에 2를 곱한 값: " + result * 2);
+      };
+
+      calcuate(5, 3, printResult());
+      calcuate(5, 3, doubleResult());
+    </script>
+  </body>
+</html>
