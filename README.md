@@ -28,11 +28,11 @@ Vanilla JavaScript 학습 과정을 기록하고 실습하는 저장소입니다
 - [x] 객체 (2025-08-18)
 - [x] 배열 (2025-08-18)
 - [x] 생성자 함수 (2025-08-18)
-- [ ] 반복문 (완료일: )
-- [ ] 배열 메서드-1 (완료일: )
-- [ ] 배열 메서드-2 (완료일: )
-- [ ] 배열과 객체 구조 분해 할당 (완료일: )
-- [ ] spread와 rest (완료일: )
+- [x] 반복문 (2025-08-18)
+- [x] 배열 메서드-1 (2025-08-18)
+- [x] 배열 메서드-2 (2025-08-18)
+- [x] 배열과 객체 구조 분해 할당 (2025-08-18)
+- [x] spread와 rest (2025-08-18)
 
 ### 섹션 2: 비동기와 API
 
@@ -43,16 +43,16 @@ Vanilla JavaScript 학습 과정을 기록하고 실습하는 저장소입니다
 
 ### 섹션 3: DOM과 DOM API
 
-- [ ] 웹과 DOM (완료일: )
-- [ ] DOM API-1 (완료일: )
-- [ ] DOM API-2 (완료일: )
-- [ ] 여러가지 폼 조작 (완료일: )
+- [x] 웹과 DOM (2025-08-18)
+- [x] DOM API-1 (2025-08-18)
+- [x] DOM API-2 (2025-08-18)
+- [x] 여러가지 폼 조작 (완료일: )
 
 ### 섹션 4: this와 화살표 함수
 
-- [ ] 자바스크립트의 this-1 (완료일: )
-- [ ] 자바스크립트의 this-2 (완료일: )
-- [ ] this와 화살표 함수 (완료일: )
+- [x] 자바스크립트의 this-1 (2025-08-18)
+- [x] 자바스크립트의 this-2 (2025-08-18)
+- [x] this와 화살표 함수 (2025-08-18)
 
 ### 섹션 5: 중간 프로젝트
 
@@ -117,7 +117,30 @@ Vanilla JavaScript 학습 과정을 기록하고 실습하는 저장소입니다
    - [배열 메서드](#배열-메서드)
    - [생성자 함수](#생성자-함수)
 
-4. [💡 핵심 개념 정리](#-핵심-개념-정리)
+4. [🔄 반복문과 배열 고급 메서드](#-반복문과-배열-고급-메서드)
+
+   - [반복문](#반복문)
+   - [forEach 메서드](#foreach-메서드)
+   - [map 메서드](#map-메서드)
+   - [기타 배열 메서드](#기타-배열-메서드)
+
+5. [🌐 DOM과 웹](#-dom과-웹)
+
+   - [DOM이란](#dom이란)
+   - [DOM API](#dom-api)
+
+6. [🎯 구조 분해 할당](#-구조-분해-할당)
+
+   - [배열 구조 분해 할당](#배열-구조-분해-할당)
+   - [객체 구조 분해 할당](#객체-구조-분해-할당)
+
+7. [📤 Spread와 Rest](#-spread와-rest)
+
+   - [Spread 문법](#spread-문법)
+   - [Rest 문법](#rest-문법)
+   - [Spread와 Rest 함께 사용](#spread와-rest-함께-사용)
+
+8. [💡 핵심 개념 정리](#-핵심-개념-정리)
    - [바닐라 JS의 의미](#바닐라-js의-의미)
    - [비교 연산 주의사항](#비교-연산-주의사항)
    - [변수 초기화](#변수-초기화)
@@ -473,6 +496,581 @@ person2.sayHi(); // '안녕하세요!김철수입니다'
 
 ---
 
+### 🔄 반복문과 배열 고급 메서드
+
+#### 반복문
+
+```javascript
+// 기본 for문
+for (let i = 0; i < arr.length; i++) {
+  console.log(arr[i]);
+}
+
+// for...of (배열 요소에 직접 접근)
+for (let element of arr) {
+  console.log(element);
+}
+```
+
+#### forEach 메서드
+
+배열에서 `for` 대신으로 많이 사용하는 메서드입니다.
+
+```javascript
+let arr = [1, 2, 3, 4, 5];
+
+// 기본 사용법
+arr.forEach((elm) => {
+  console.log(elm);
+});
+// 1
+// 2
+// 3
+// 4
+// 5
+
+// 인덱스와 함께 사용
+arr.forEach((elm, idx) => {
+  console.log(`${idx}번째 요소는 ${elm}입니다.`);
+});
+// 0번째 요소는 1입니다.
+// 1번째 요소는 2입니다.
+// ...
+// 4번째 요소는 5입니다.
+```
+
+#### map 메서드
+
+배열의 각 요소를 변환하여 새로운 배열을 생성합니다.
+
+```javascript
+let arr = [1, 2, 3, 4, 5];
+
+// for문으로 구현
+let newArray = [];
+for (let i = 0; i < arr.length; i++) {
+  newArray.push(arr[i] * 10);
+}
+console.log(newArray); // [10, 20, 30, 40, 50]
+
+// map으로 구현
+let newArray = arr.map((elm) => {
+  return elm * 10;
+});
+console.log(newArray); // [10, 20, 30, 40, 50]
+```
+
+#### 기타 배열 메서드
+
+**at()과 includes() 메서드**
+
+```javascript
+let colors = ["green", "blue", "purple"];
+
+// at(): 음수 인덱스로 뒤에서부터 접근 가능
+console.log(colors.at(-1)); // purple
+console.log(colors.at(1)); // blue
+
+// includes(): 요소 포함 여부 확인
+console.log(colors.includes("blue")); // true
+console.log(colors.includes("yellow")); // false
+
+// 두 번째 인자: 시작 인덱스
+console.log(colors.includes("blue", 2)); // false (2번째 인덱스부터 blue가 있는지 찾기)
+console.log(colors.includes("blue", 1)); // true (1번째 인덱스부터 blue가 있는지 찾기)
+```
+
+**indexOf() 메서드**
+
+```javascript
+let colors = ["green", "blue", "purple"];
+
+console.log(colors.indexOf("purple")); // 2
+console.log(colors.indexOf("yellow")); // -1 (배열에 존재하지 않는 값)
+console.log(colors.indexOf("blue", 1)); // 1
+```
+
+**findIndex() 메서드**
+
+```javascript
+let colors = [
+  { id: 1, color: "green" },
+  { id: 2, color: "blue" },
+  { id: 3, color: "purple" },
+];
+
+let idx = colors.findIndex((elm) => elm.color === "purple");
+console.log(idx); // 2
+```
+
+**filter() 메서드**
+
+```javascript
+let colors = [
+  { id: 1, color: "green" },
+  { id: 2, color: "blue" },
+  { id: 3, color: "purple" },
+];
+
+let filterArray = colors.filter((elm, idx, array) => elm.id > 1);
+console.log(filterArray);
+```
+
+**slice() 메서드**
+
+```javascript
+let colors = [
+  { id: 1, color: "green" },
+  { id: 2, color: "blue" },
+  { id: 3, color: "purple" },
+  { id: 4, color: "yellow" },
+];
+
+let sliceArray = colors.slice(1, 3);
+console.log(sliceArray);
+```
+
+**join() 메서드**
+
+```javascript
+let array = ["green", "blue", "yellow", "red"];
+
+console.log(array.join()); // green,blue,yellow,red
+console.log(array.join(" ")); // green blue yellow red
+```
+
+**sort() 메서드**
+
+```javascript
+let colors = ["green", "blue", "purple"];
+colors.sort();
+console.log(colors); // ["blue", "green", "purple"] (오름차순으로 정렬)
+
+// 내림차순 정렬
+const compare = (a, b) => {
+  if (a > b) return -1;
+  else if (a < b) return 1;
+  else return 0;
+};
+
+let colors = ["green", "blue", "purple"];
+colors.sort(compare);
+console.log(colors); // ["purple", "green", "blue"]
+
+// 숫자 오름차순 정렬
+const compare = (a, b) => {
+  return a - b;
+};
+
+let numbers = [1, 100, 25, 50, 120, 3];
+numbers.sort(compare);
+console.log(numbers); // [1, 3, 25, 50, 100, 120]
+
+// 숫자 내림차순 정렬
+const compare = (a, b) => {
+  return b - a;
+};
+
+let numbers = [1, 100, 25, 50, 120, 3];
+numbers.sort(compare);
+console.log(numbers); // [120, 100, 50, 25, 3, 1]
+```
+
+**reduce() 메서드**
+
+```javascript
+let numbers = [1, 100, 25, 50, 120, 3];
+
+// 기본 사용법
+let sum = numbers.reduce((acc, cur, idx) => {
+  console.log(acc, cur, idx);
+  return acc + cur;
+});
+console.log(sum);
+
+// 초기값 설정
+let sum = numbers.reduce((acc, cur, idx) => {
+  console.log(acc, cur, idx);
+  return acc + cur;
+}, 10);
+console.log(sum);
+```
+
+**Array.isArray() 메서드**
+
+```javascript
+let a = Array.isArray([1, 100, 50]);
+let b = Array.isArray({ id: 1, color: "green" });
+let c = Array.isArray("string");
+let d = Array.isArray(undefined);
+
+console.log(a, b, c, d); // true false false false
+```
+
+---
+
+### 🌐 DOM과 웹
+
+#### DOM이란?
+
+**Document Object Model(문서 객체 모델)**
+HTML로 작성된 요소들을 JavaScript가 이해할 수 있도록 객체로 변환한 것입니다.
+
+**class vs id 사용법**
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>DOM Tree</title>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <div class="animal-info">
+      <div id="name">강아지</div>
+      <div id="color">갈색</div>
+      <div id="age">2살</div>
+    </div>
+    <script src="src/index.js"></script>
+  </body>
+</html>
+```
+
+> 📌 **class**는 동일한 값을 여러 요소에 적용할 수 있지만, **id** 값은 고유한 값으로 같은 값을 여러 요소에 지정할 수 없습니다.
+>
+> - **class**: 반복적으로 사용되는 스타일을 적용할 때 사용
+> - **id**: header와 footer 같은 요소나 내부에 있는 세부적인 스타일을 적용할 때 사용
+
+#### DOM API
+
+**getElementById()**
+
+```javascript
+// DOM API를 사용해 특정 요소를 변수에 할당할 때에는 일반적으로
+// 요소를 할당할 변수의 이름 앞에 '$' 기호를 붙여 작성하거나,
+// 변수명의 뒤에 Element를 작성합니다.
+
+let $color = document.getElementById("color");
+console.log($color);
+
+// 또는
+let colorElement = document.getElementById("color");
+console.log(colorElement);
+```
+
+**querySelector()**
+
+CSS 선택자로 요소 노드를 반환하는 API입니다.
+
+```javascript
+let $animalInfo = document.querySelector("div.animal-info");
+let ageElement = document.querySelector("div#age");
+
+console.log($animalInfo);
+console.log(ageElement);
+```
+
+---
+
+### 🎯 구조 분해 할당
+
+#### 배열 구조 분해 할당
+
+**기본 사용법**
+
+```javascript
+let c1, c2, c3;
+[c1, c2, c3] = ["green", "blue", "purple"];
+console.log(c1); // green
+console.log(c2); // blue
+console.log(c3); // purple
+```
+
+**요소 개수 불일치**
+
+```javascript
+// 할당할 변수가 더 적은 경우
+let c1, c2;
+[c1, c2] = ["green", "blue", "purple"];
+console.log(c1); // green
+console.log(c2); // blue
+
+// 할당할 변수가 더 많은 경우
+let c1, c2, c3, c4;
+[c1, c2, c3, c4] = ["green", "blue", "purple"];
+console.log(c1); // green
+console.log(c2); // blue
+console.log(c3); // purple
+console.log(c4); // undefined
+```
+
+**기본값 설정**
+
+```javascript
+let c1, c2, c3, c4;
+[c1, c2, c3, c4 = "yellow"] = ["green", "blue", "purple"];
+console.log(c1); // green
+console.log(c2); // blue
+console.log(c3); // purple
+console.log(c4); // yellow
+```
+
+**값 교환**
+
+```javascript
+// 구조 분해 할당 전 (temp 사용)
+let a = 10;
+let b = 5;
+let temp;
+
+temp = a;
+a = b;
+b = temp;
+
+console.log(a, b); // 5 10
+
+// 구조 분해 할당 후
+let a = 10;
+let b = 5;
+[a, b] = [b, a];
+
+console.log(a, b); // 5 10
+```
+
+#### 객체 구조 분해 할당
+
+**기본 사용법**
+
+```javascript
+// 구조 분해 할당 전
+let colors = {
+  c1: "green",
+  c2: "blue",
+  c3: "purple",
+};
+
+let c1 = colors.c1;
+let c2 = colors.c2;
+let c3 = colors.c3;
+
+console.log(c1); // green
+console.log(c2); // blue
+console.log(c3); // purple
+
+// 구조 분해 할당 후
+let colors = {
+  c1: "green",
+  c2: "blue",
+  c3: "purple",
+};
+
+let { c1, c2, c3 } = colors; // 분해할 객체
+
+console.log(c1); // green
+console.log(c2); // blue
+console.log(c3); // purple
+```
+
+**변수명 변경**
+
+```javascript
+// 구조 분해 할당 전
+let colors = {
+  c1: "green",
+  c2: "blue",
+  c3: "purple",
+};
+
+let color1 = colors.c1;
+let color2 = colors.c2;
+let color3 = colors.c3;
+
+console.log(color1); // green
+console.log(color2); // blue
+console.log(color3); // purple
+
+// 구조 분해 할당 후 (변수명 변경)
+let colors = {
+  c1: "green",
+  c2: "blue",
+  c3: "purple",
+};
+
+let { c1: color1, c2: color2, c3: color3 } = colors;
+// colors 객체의 c1, c2, c3 각각 color1, color2, color3로 변경
+
+console.log(color1); // green
+console.log(color2); // blue
+console.log(color3); // purple
+```
+
+---
+
+### 📤 Spread와 Rest
+
+#### Spread 문법
+
+배열이나 객체에서 반복적인 부분을 `...` 기호를 사용해 퍼트릴 수 있고, 순서에 상관없이 여러 번 사용할 수도 있습니다.
+
+**객체에서 Spread 사용**
+
+```javascript
+// spread 사용 전
+const toy = {
+  type: "bear",
+  price: 15000,
+};
+
+const blueToy = {
+  type: "bear",
+  price: 15000,
+  color: "blue",
+};
+
+const yellowToy = {
+  type: "bear",
+  price: 15000,
+  color: "yellow",
+};
+
+// spread 사용 후
+const toy = {
+  type: "bear",
+  price: 15000,
+};
+
+const blueToy = {
+  ...toy, // toy 객체의 모든 속성을 복사
+  color: "blue",
+};
+
+const yellowToy = {
+  ...toy, // toy 객체의 모든 속성을 복사
+  color: "yellow",
+};
+
+console.log(blueToy); // { type: "bear", price: 15000, color: "blue" }
+console.log(yellowToy); // { type: "bear", price: 15000, color: "yellow" }
+```
+
+**배열에서 Spread 사용**
+
+```javascript
+const color1 = ["red", "orange", "yellow"];
+const color2 = ["blue", "navy", "purple"];
+
+const rainbow = [...color1, "green", ...color2];
+console.log(rainbow); // ["red", "orange", "yellow", "green", "blue", "navy", "purple"]
+```
+
+#### Rest 문법
+
+**객체에서 Rest 사용**
+
+```javascript
+// rest 사용 전
+const blueToy = {
+  type: "bear",
+  price: 15000,
+  color: "blue",
+};
+
+const { type, price, color } = blueToy;
+
+console.log(type); // bear
+console.log(price); // 15000
+console.log(color); // blue
+
+// rest 사용 후
+const blueToy = {
+  type: "bear",
+  price: 15000,
+  color: "blue",
+};
+
+const { type, ...rest } = blueToy; // type을 제외한 나머지를 rest에 할당
+
+console.log(type); // bear
+console.log(rest); // { price: 15000, color: "blue" }
+
+// ❌ 주의: rest는 항상 맨 마지막에 작성해야 함
+// const { ...rest, type } = blueToy; // SyntaxError
+```
+
+**배열에서 Rest 사용**
+
+```javascript
+const color = ["red", "orange", "yellow", "green"];
+const [c1, c2, ...rest] = color;
+
+console.log(c1, c2); // red orange
+console.log(rest); // ["yellow", "green"]
+```
+
+**함수 매개변수에서 Rest 사용**
+
+```javascript
+// rest 사용 전
+const print = (a, b, c, d, e, f) => {
+  console.log([c, d, e, f]);
+};
+
+print(1, 2, 3, 4, 5, 6);
+
+// rest 사용 후
+const print = (a, b, ...rest) => {
+  console.log(a); // 1
+  console.log(b); // 2
+  console.log(rest); // [3, 4, 5, 6]
+};
+
+print(1, 2, 3, 4, 5, 6);
+```
+
+#### Spread와 Rest 함께 사용
+
+**함수 호출 시 Spread 사용**
+
+```javascript
+// 사용 전
+const print = (a, b, c, d, e, f) => {
+  console.log(a, b, c, d, e, f);
+};
+
+const numbers = [1, 2, 3, 4, 5, 6];
+print(numbers[0], numbers[1], numbers[2], numbers[3], numbers[4], numbers[5]);
+
+// 사용 후
+const print = (a, b, c, d, e, f) => {
+  console.log(a, b, c, d, e, f);
+};
+
+const numbers = [1, 2, 3, 4, 5, 6];
+print(...numbers); // spread
+```
+
+**Rest와 Spread 함께 사용**
+
+```javascript
+const print = (...rest) => {
+  // rest: 매개변수를 배열로 받음
+  console.log(rest);
+};
+
+const numbers = [1, 2, 3, 4, 5, 6];
+print(...numbers); // spread: 배열을 개별 요소로 펼침
+// 출력: [1, 2, 3, 4, 5, 6]
+```
+
+> 📌 **정리**
+>
+> - **Spread 문법**: 객체나 배열에서 중복된 부분을 퍼트릴 때, 혹은 함수를 호출할 때 인수로 전달할 값들을 퍼트릴 때 사용
+> - **Rest 문법**: 객체나 배열에서 특정 부분을 하나의 객체나 배열로 묶어야 할 때, 구조 분해 할당을 사용해 배열이나 객체의 값을 묶어서 할당할 때, 그리고 함수의 매개변수로 많은 값들을 전달받거나 특정 매개변수들을 제외한 나머지 매개변수들을 묶어서 사용할 때 사용
+>
+> Rest 매개변수는 함수의 매개변수가 매우 많거나, 몇 개가 될지 모를 때, 함수에서 받아온 매개변수들을 배열로 나타내야 될 때 유용하게 사용할 수 있는 문법입니다.
+
+---
+
 ### 💡 핵심 개념 정리
 
 #### 바닐라 JS의 의미
@@ -527,4 +1125,3 @@ if (!userName) {
   console.log("데이터가 있습니다.");
 }
 ```
-# 2025-vanilla-js-studylog

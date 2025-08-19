@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>문서 제목</title>
+  </head>
+  <body>
+    <script>
+      let person = {
+        name: "홍길동",
+        age: 25,
+        height: 190,
+      };
+
+      let newArray = Object.keys(person);
+      for (let i = 0; i < newArray.length; i++) {
+        let nowKey = newArray[i];
+        console.log(`key: ${nowKey}, value: ${person[nowKey]}`);
+      }
+
+      console.log(Object.keys(person));
+      console.log("----------");
+
+      let newArray2 = Object.values(person);
+
+      for (let i = 0; i < newArray2.length; i++) {
+        console.log(`value: ${newArray2[i]}`);
+      }
+
+      console.log("----------");
+      console.log(Object.values(person));
+
+      //Object.entries(key+value를 받아 새로운 Object로 반환)
+      console.log("----entries------");
+
+      let newArray3 = Object.entries(person);
+
+      for (let i = 0; i < newArray3.length; i++) {
+        console.log(`key: ${newArray3[i][0]}, value: ${newArray3[i][1]}`);
+      }
+    </script>
+  </body>
+</html>

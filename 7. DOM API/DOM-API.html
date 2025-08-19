@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>DOM Tree</title>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <div class="animal-info">
+      <div id="name">강아지</div>
+      <div id="color">갈색</div>
+      <div id="age">2살</div>
+    </div>
+    <script src="src/index.js"></script>
+  </body>
+  <script>
+    let $age = document.getElementById("age");
+    $age.textContent = "5살이지롱";
+    console.log($age);
+
+    let $color = document.getElementById("color");
+    $color.style.color = "blue";
+    $color.style.fontSize = "30px";
+
+    console.log("---------------");
+    let $type = document.createElement("div");
+    $type.className = "info-item";
+    $type.id = "type";
+    $type.textContent = "말티즈";
+
+    let $typeText = document.createTextNode("말티즈");
+
+    console.log($type);
+    console.log("---------------");
+    console.log($typeText);
+  </script>
+</html>
