@@ -45,8 +45,8 @@ Vanilla JavaScript 학습 과정을 기록하고 실습하는 저장소입니다
 
 - [x] 웹과 DOM (2025-08-18)
 - [x] DOM API-1 (2025-08-18)
-- [x] DOM API-2 (2025-08-18)
-- [x] 여러가지 폼 조작 (완료일: )
+- [x] DOM API-2 (2025-08-19)
+- [x] 여러가지 폼 조작 (2025-08-19)
 
 ### 섹션 4: this와 화살표 함수
 
@@ -128,6 +128,9 @@ Vanilla JavaScript 학습 과정을 기록하고 실습하는 저장소입니다
 
    - [DOM이란](#dom이란)
    - [DOM API](#dom-api)
+   - [요소 생성과 추가](#요소-생성과-추가)
+   - [innerHTML vs appendChild](#innerhtml-vs-appendchild)
+   - [폼 요소 조작](#폼-요소-조작)
 
 6. [🎯 구조 분해 할당](#-구조-분해-할당)
 
@@ -140,11 +143,19 @@ Vanilla JavaScript 학습 과정을 기록하고 실습하는 저장소입니다
    - [Rest 문법](#rest-문법)
    - [Spread와 Rest 함께 사용](#spread와-rest-함께-사용)
 
-8. [💡 핵심 개념 정리](#-핵심-개념-정리)
+8. [🎯 this와 화살표 함수](#-this와-화살표-함수)
+
+   - [JavaScript의 this](#javascript의-this)
+   - [일반 함수 vs 화살표 함수의 this](#일반-함수-vs-화살표-함수의-this)
+   - [setTimeout에서의 this](#settimeout에서의-this)
+
+9. [💡 핵심 개념 정리](#-핵심-개념-정리)
    - [바닐라 JS의 의미](#바닐라-js의-의미)
    - [비교 연산 주의사항](#비교-연산-주의사항)
    - [변수 초기화](#변수-초기화)
    - [return vs console.log](#return-vs-consolelog)
+   - [이벤트 핸들러 주의사항](#이벤트-핸들러-주의사항)
+   - [data-\* 속성](#data--속성)
 
 ---
 
@@ -770,6 +781,117 @@ console.log($animalInfo);
 console.log(ageElement);
 ```
 
+#### 요소 생성과 추가
+
+**createElement()와 appendChild()**
+
+```javascript
+// 새로운 요소 생성
+let $type = document.createElement("div");
+$type.className = "info-item";
+$type.id = "type";
+
+// 텍스트 노드 생성
+let $typeText = document.createTextNode("말티즈");
+
+// 요소에 텍스트 추가
+$type.appendChild($typeText);
+
+// DOM에 요소 추가
+let $animalInfo = document.querySelector("div.animal-info");
+$animalInfo.appendChild($type);
+
+console.log($type); // <div class="info-item" id="type">말티즈</div>
+```
+
+**요소 생성 과정**
+
+1. `createElement()`: HTML 요소 생성
+2. 속성 설정 (`className`, `id` 등)
+3. `createTextNode()`: 텍스트 노드 생성 (선택사항)
+4. `appendChild()`: 요소를 DOM에 추가
+
+#### innerHTML vs appendChild
+
+**innerHTML 사용법**
+
+```javascript
+let $animalInfo = document.querySelector("div.animal-info");
+$animalInfo.innerHTML = '<div id="name">고양이</div>';
+
+console.log($animalInfo.innerHTML); // '<div id="name">고양이</div>'
+```
+
+**차이점과 주의사항**
+
+| 구분          | innerHTML                   | appendChild             |
+| ------------- | --------------------------- | ----------------------- |
+| **사용법**    | HTML 문자열로 설정          | 요소 객체로 추가        |
+| **기존 요소** | 모든 자식 요소 제거 후 대체 | 기존 요소 유지하며 추가 |
+| **성능**      | 상대적으로 느림             | 빠름                    |
+| **보안**      | XSS 공격 위험               | 안전                    |
+| **권장도**    | 주의해서 사용               | 권장                    |
+
+> ⚠️ **중요**: `innerHTML`을 사용하면 기존의 모든 자식 요소들이 제거되고 새로운 요소로 대체됩니다. 성능이나 보안에 문제가 있기 때문에 가능하다면 `createElement`나 `textContent`와 같은 DOM API를 사용하는 것이 좋습니다.
+
+#### 폼 요소 조작
+
+**input 요소 다루기**
+
+```javascript
+// HTML
+// <input type="text" id="userName" placeholder="이름을 입력하세요" />
+// <input type="password" id="password" placeholder="비밀번호를 입력하세요" />
+
+const $userName = document.getElementById("userName");
+const $password = document.getElementById("password");
+
+// 값 설정
+$userName.value = "홍길동";
+
+// 입력 이벤트 감지
+$password.addEventListener("input", (event) => {
+  console.log(event.target.value); // 입력된 값 실시간 출력
+});
+```
+
+**select 요소 다루기**
+
+```javascript
+// HTML
+// <select id="fruitSelect">
+//   <option value="apple">사과</option>
+//   <option value="banana">바나나</option>
+//   <option value="cherry">체리</option>
+// </select>
+
+const $fruitSelect = document.getElementById("fruitSelect");
+
+// 선택 변경 이벤트 감지
+$fruitSelect.addEventListener("change", (event) => {
+  console.log(event.target.value); // 선택된 option의 value 출력
+});
+```
+
+**폼 요소 이벤트 타입**
+
+- `input`: 실시간으로 값이 변경될 때마다 발생
+- `change`: 요소의 값이 변경되고 포커스를 잃을 때 발생
+- `focus`: 요소에 포커스가 갈 때 발생
+- `blur`: 요소에서 포커스가 벗어날 때 발생
+
+```javascript
+const $input = document.getElementById("userName");
+
+$input.addEventListener("focus", () => {
+  console.log("입력 필드에 포커스됨");
+});
+
+$input.addEventListener("blur", () => {
+  console.log("입력 필드에서 포커스 벗어남");
+});
+```
+
 ---
 
 ### 🎯 구조 분해 할당
@@ -1071,6 +1193,125 @@ print(...numbers); // spread: 배열을 개별 요소로 펼침
 
 ---
 
+### 🎯 this와 화살표 함수
+
+#### JavaScript의 this
+
+JavaScript에서 `this`는 **누가 함수를 호출했는지**(호출 주체)에 따라 달라집니다.
+
+**기본 개념**
+
+```javascript
+// 일반 함수에서의 this
+const user = {
+  name: "채현",
+  say: function () {
+    console.log(`안녕, ${this.name}`); // this는 user 객체를 가리킴
+  },
+};
+
+user.say(); // "안녕, 채현"
+```
+
+#### 일반 함수 vs 화살표 함수의 this
+
+**일반 함수의 this**
+
+```javascript
+const user = {
+  name: "채현",
+  say: function () {
+    console.log(this.name); // this는 user 객체
+  },
+};
+
+user.say(); // "채현"
+
+// 다른 변수에 할당하면 this가 바뀜
+const sayHi = user.say;
+sayHi(); // undefined (전역 객체에서 호출)
+```
+
+**화살표 함수의 this**
+
+```javascript
+const user = {
+  name: "채현",
+  say: () => {
+    console.log(this.name); // 화살표 함수는 자신의 this가 없음
+  },
+};
+
+user.say(); // undefined (상위 스코프의 this 사용)
+```
+
+> 📌 **핵심**: 화살표 함수는 자기만의 `this`가 없습니다. 대신 상위 환경(lexical scope)의 `this`를 그대로 사용합니다.
+
+#### setTimeout에서의 this
+
+**일반 함수 사용 시 문제점**
+
+```javascript
+const user = {
+  name: "채현",
+  say: function () {
+    console.log(`즉시: ${this.name}`); // "즉시: 채현"
+
+    setTimeout(function () {
+      console.log(`1초 후: ${this.name}`); // "1초 후: undefined"
+      // setTimeout 안의 this는 전역 객체(window)를 가리킴
+    }, 1000);
+  },
+};
+
+user.say();
+```
+
+**화살표 함수로 해결**
+
+```javascript
+const user = {
+  name: "채현",
+  say: function () {
+    console.log(`즉시: ${this.name}`); // "즉시: 채현"
+
+    setTimeout(() => {
+      console.log(`1초 후: ${this.name}`); // "1초 후: 채현"
+      // 화살표 함수는 상위 스코프(say 함수)의 this를 유지
+    }, 1000);
+  },
+};
+
+user.say();
+```
+
+**bind() 메서드 사용법 (대안)**
+
+```javascript
+const user = {
+  name: "채현",
+  say: function () {
+    setTimeout(
+      function () {
+        console.log(`1초 후: ${this.name}`);
+      }.bind(this),
+      1000
+    ); // bind로 this를 명시적으로 바인딩
+  },
+};
+
+user.say(); // "1초 후: 채현"
+```
+
+**정리**
+
+| 함수 타입       | this 결정        | 상황별 this             |
+| --------------- | ---------------- | ----------------------- |
+| **일반 함수**   | 호출 시점에 결정 | 호출 주체에 따라 변함   |
+| **화살표 함수** | 선언 시점에 결정 | 상위 스코프의 this 유지 |
+
+---
+
 ### 💡 핵심 개념 정리
 
 #### 바닐라 JS의 의미
@@ -1125,3 +1366,84 @@ if (!userName) {
   console.log("데이터가 있습니다.");
 }
 ```
+
+#### 이벤트 핸들러 주의사항
+
+**함수 참조 vs 함수 호출**
+
+```javascript
+const button = document.getElementById("myButton");
+
+// ✅ 올바른 방법: 함수 참조만 넘기기
+button.addEventListener("click", handleClick);
+
+// ❌ 잘못된 방법: 함수를 즉시 실행
+button.addEventListener("click", handleClick()); // 즉시 실행되어 undefined가 전달됨
+
+function handleClick() {
+  console.log("버튼 클릭됨!");
+}
+```
+
+**익명 함수 사용**
+
+```javascript
+button.addEventListener("click", function () {
+  console.log("익명 함수로 처리");
+});
+
+// 화살표 함수 사용
+button.addEventListener("click", () => {
+  console.log("화살표 함수로 처리");
+});
+```
+
+#### data-\* 속성
+
+HTML 태그에 개발자가 원하는 사용자 정의 데이터를 저장할 수 있습니다.
+
+**HTML에서 data-\* 속성 사용**
+
+```html
+<button data-user-id="42" data-action="delete">삭제</button>
+<div data-product-name="laptop" data-price="1500000">노트북</div>
+```
+
+**JavaScript에서 data-\* 속성 접근**
+
+```javascript
+const button = document.querySelector("button");
+
+// dataset 객체로 접근 (camelCase로 변환됨)
+console.log(button.dataset.userId); // "42"
+console.log(button.dataset.action); // "delete"
+
+// getAttribute()로 접근
+console.log(button.getAttribute("data-user-id")); // "42"
+
+// data-* 속성 설정
+button.dataset.newData = "새로운 값";
+button.setAttribute("data-custom", "사용자 정의");
+```
+
+**실제 활용 예시**
+
+```javascript
+// 여러 버튼에 각각 다른 데이터 연결
+document.querySelectorAll(".delete-btn").forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    const userId = e.target.dataset.userId;
+    const userName = e.target.dataset.userName;
+
+    if (confirm(`${userName}님을 정말 삭제하시겠습니까?`)) {
+      deleteUser(userId);
+    }
+  });
+});
+```
+
+> 📌 **data-\* 속성 규칙**
+>
+> - 속성명은 `data-`로 시작해야 함
+> - 소문자와 하이픈(-)만 사용 가능
+> - JavaScript에서는 camelCase로 변환됨 (`data-user-name` → `dataset.userName`)

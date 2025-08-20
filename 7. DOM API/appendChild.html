@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>DOM Tree</title>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <div class="animal-info">
+      <div id="name">강아지</div>
+      <div id="color">갈색</div>
+      <div id="age">2살</div>
+    </div>
+    <script src="src/index.js"></script>
+  </body>
+  <script>
+    let $type = document.createElement("div");
+    $type.className = "info-item";
+    $type.id = "type";
+
+    let $typeText = document.createTextNode("말티즈");
+
+    let $animalInfo = document.querySelector("div.animal-info");
+    $animalInfo.appendChild($type);
+    $type.appendChild($typeText);
+
+    console.log($type);
+    console.log($typeText);
+  </script>
+</html>
