@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Private 필드 쉬운 설명</title>
+  </head>
+  <body>
+    <h1>Private 필드를 집 안의 금고로 이해하기</h1>
+
+    <script>
+      console.log("🏠 집 안의 금고 비유로 이해하기");
+      console.log("================================");
+
+      // 상황: 당신이 집을 만들어요
+
+      // ❌ 나쁜 예: 돈을 거실 테이블에 둠 (누구나 볼 수 있음)
+      class 나쁜집 {
+        constructor() {
+          this.돈 = 1000000; // 거실에 돈을 놔둠 - 누구나 접근 가능!
+        }
+      }
+
+      // ✅ 좋은 예: 돈을 금고에 숨김 (집 주인만 접근 가능)
+      class 좋은집 {
+        #돈 = 1000000; // 금고에 돈을 숨김 - 외부에서 접근 불가!
+
+        // 돈을 확인하는 방법 (집 주인만 가능)
+        돈확인하기() {
+          return `금고에 ${this.#돈}원이 있어요`;
+        }
+
+        // 돈을 쓰는 방법 (안전하게)
+        돈쓰기(금액) {
+          if (this.#돈 >= 금액) {
+            this.#돈 -= 금액;
+            return `${금액}원을 썼어요. 남은 돈: ${this.#돈}원`;
+          } else {
+            return "돈이 부족해요!";
+          }
+        }
+      }
+
+      // 테스트해보기
+      console.log("\n--- 나쁜 집 (돈이 거실에 있음) ---");
+      const 내나쁜집 = new 나쁜집();
+      console.log("돈 확인:", 내나쁜집.돈); // 1000000원 - 누구나 볼 수 있음!
+
+      // 도둑이 와서 돈을 훔쳐감! 😱
+      내나쁜집.돈 = 0;
+      console.log("도둑이 다녀간 후:", 내나쁜집.돈); // 0원 - 돈이 없어짐!
+
+      console.log("\n--- 좋은 집 (돈이 금고에 있음) ---");
+      const 내좋은집 = new 좋은집();
+      console.log("돈 확인:", 내좋은집.돈확인하기()); // 안전한 방법으로만 확인 가능
+
+      // 도둑이 와서 돈을 훔치려고 해도...
+      console.log("도둑이 금고를 열려고 시도:", 내좋은집.돈); // undefined - 접근 불가!
+      내좋은집.돈 = 0; // 이렇게 해도 실제 금고 안의 돈은 안전함
+      console.log("도둑이 다녀간 후에도:", 내좋은집.돈확인하기()); // 여전히 1000000원!
+
+      // 집 주인만 안전하게 돈을 쓸 수 있음
+      console.log(내좋은집.돈쓰기(300000)); // 300000원을 썼어요. 남은 돈: 700000원
+
+      console.log("\n" + "=".repeat(50));
+      console.log("🔑 핵심 포인트:");
+      console.log("• 일반 변수(돈) = 거실 테이블 = 누구나 접근 가능");
+      console.log("• Private 변수(#돈) = 금고 = 집 주인만 접근 가능");
+      console.log("• # 기호 = 금고의 자물쇠 🔒");
+
+      // 더 간단한 예시
+      console.log("\n📱 휴대폰 잠금 비유");
+      console.log("==================");
+
+      class 휴대폰 {
+        #비밀번호 = "1234"; // 휴대폰 잠금 비밀번호 (숨겨진 정보)
+
+        // 휴대폰 잠금 해제 시도
+        잠금해제(입력한번호) {
+          if (입력한번호 === this.#비밀번호) {
+            return "✅ 휴대폰이 열렸습니다!";
+          } else {
+            return "❌ 비밀번호가 틀렸습니다.";
+          }
+        }
+      }
+
+      const 내휴대폰 = new 휴대폰();
+
+      // 다른 사람이 비밀번호를 보려고 해도...
+      console.log("비밀번호 훔쳐보기 시도:", 내휴대폰.비밀번호); // undefined - 볼 수 없음!
+
+      // 올바른 방법으로만 사용 가능
+      console.log(내휴대폰.잠금해제("1111")); // ❌ 비밀번호가 틀렸습니다.
+      console.log(내휴대폰.잠금해제("1234")); // ✅ 휴대폰이 열렸습니다!
+
+      console.log("\n💡 이제 이해되시나요?");
+      console.log(
+        "# 기호는 '이건 비밀이야, 외부에서 접근하지 마!'라는 뜻이에요"
+      );
+
+      console.log("---------------- 또 다른 예제 -------------");
+      class TestClass {
+        #privateVar = "비밀 데이터";
+        publicVar = "공개 데이터";
+
+        // ✅ 클래스 내부에서는 접근 가능
+        showPrivate() {
+          return this.#privateVar; // 정상 작동
+        }
+
+        // ✅ 클래스 내부에서 수정도 가능
+        changePrivate(newValue) {
+          this.#privateVar = newValue; // 정상 작동
+        }
+      }
+
+      const instance = new TestClass();
+
+      // ✅ public 변수는 외부에서 접근 가능
+      console.log(instance.publicVar); // "공개 데이터"
+      instance.publicVar = "변경된 데이터"; // 정상 작동
+
+      // ❌ private 변수는 외부에서 접근 불가
+      console.log(instance.#privateVar); // 🚨 SyntaxError!
+      instance.#privateVar = "해킹 시도"; // 🚨 SyntaxError!
+
+      // ✅ 클래스가 제공하는 메서드로만 접근 가능
+      console.log(instance.showPrivate()); // "비밀 데이터" - 정상 작동
+
+      console.log("---------------- 또 다른 예제 -------------");
+
+      class Parent {
+        #secret = "부모의 비밀";
+
+        getSecret() {
+          return this.#secret; // ✅ 부모 클래스에서는 접근 가능
+        }
+      }
+
+      class Child extends Parent {
+        tryToAccessSecret() {
+          return this.#secret; // 🚨 에러! 자식 클래스에서도 접근 불가
+        }
+
+        // 부모의 메서드를 통해서만 접근 가능
+        getParentSecret() {
+          return this.getSecret(); // ✅ 이건 가능
+        }
+      }
+    </script>
+  </body>
+</html>

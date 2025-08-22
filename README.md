@@ -1447,3 +1447,5 @@ document.querySelectorAll(".delete-btn").forEach((btn) => {
 > - 속성명은 `data-`로 시작해야 함
 > - 소문자와 하이픈(-)만 사용 가능
 > - JavaScript에서는 camelCase로 변환됨 (`data-user-name` → `dataset.userName`)
+
+자바스크립트는 싱글 스레드(Single Threaded) 언어로 한 번에 하나의 작업만 수행할 수 있습니다. 그렇기 때문에 이렇게 여러 스레드를 사용해 작업을 처리하는 이 멀티 스레드(Multi Threaded) 방식으로는 작업을 처리할 수 없습니다.

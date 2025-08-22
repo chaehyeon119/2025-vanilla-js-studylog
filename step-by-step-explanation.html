@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>코드 한 줄씩 이해하기</title>
+  </head>
+  <body>
+    <h1>코드를 한 줄씩 천천히 이해해보기</h1>
+
+    <script>
+      console.log("📖 코드 한 줄씩 설명");
+      console.log("===================");
+
+      // 👇 이미지에 있던 코드를 단계별로 설명
+
+      // 1단계: 클래스 만들기 (설계도 그리기)
+      console.log("\n1️⃣ 1단계: User라는 설계도 만들기");
+      
+      class User {
+        // 2단계: 비밀번호를 금고에 넣기
+        #password = "1234"; // 🔒 이건 비밀! 외부에서 볼 수 없음
+
+        // 3단계: 비밀번호 확인하는 방법 만들기
+        checkPassword(input) {
+          // input = 사용자가 입력한 비밀번호
+          // this.#password = 진짜 비밀번호 (금고 안에 있는)
+          return input === this.#password; // 같으면 true, 다르면 false
+        }
+
+        // 4단계: 비밀번호 보여주는 방법 (안전하게)
+        getPassword() {
+          return "번호는 " + this.#password; // 금고 주인만 볼 수 있음
+        }
+
+        // 5단계: 비밀번호 바꾸는 방법 (안전하게)
+        setPassword(input) {
+          this.#password = input; // 새로운 비밀번호로 바꿈
+        }
+      }
+
+      console.log("✅ User 설계도 완성!");
+
+      // 6단계: 설계도로 실제 사용자 만들기
+      console.log("\n2️⃣ 2단계: 설계도로 실제 사용자 만들기");
+      
+      const user = new User(); // 새로운 User 만들기
+      console.log("✅ user라는 사용자가 만들어졌어요!");
+
+      // 7단계: 만들어진 사용자 테스트하기
+      console.log("\n3️⃣ 3단계: 테스트해보기");
+
+      // 첫 번째 테스트: 올바른 비밀번호로 확인
+      console.log("올바른 비밀번호('1234') 테스트:", user.checkPassword("1234"));
+      // 👆 결과: true (맞음!)
+
+      // 두 번째 테스트: 틀린 비밀번호로 확인  
+      console.log("틀린 비밀번호('0000') 테스트:", user.checkPassword("0000"));
+      // 👆 결과: false (틀림!)
+
+      // 세 번째 테스트: 비밀번호 직접 보려고 시도
+      console.log("비밀번호 직접 보기 시도:", user.password);
+      // 👆 결과: undefined (볼 수 없음!)
+
+      // 네 번째 테스트: 안전한 방법으로 비밀번호 보기
+      const result = user.getPassword();
+      console.log("안전한 방법으로 확인:", result);
+      // 👆 결과: "번호는 1234"
+
+      // 다섯 번째 테스트: 비밀번호 바꾸기
+      user.setPassword("6666");
+      console.log("비밀번호를 6666으로 바꾼 후 테스트:", user.checkPassword("6666"));
+      // 👆 결과: true (새 비밀번호로 바뀜!)
+
+      console.log("\n" + "=".repeat(40));
+      console.log("🎯 각 부분이 하는 일:");
+      console.log("");
+      
+      console.log("class User { ... }");
+      console.log("└─ User라는 설계도를 만드는 부분");
+      console.log("");
+      
+      console.log("#password = '1234'");
+      console.log("└─ 비밀번호를 금고에 넣는 부분 (# = 자물쇠)");
+      console.log("");
+      
+      console.log("checkPassword(input) { ... }");
+      console.log("└─ 입력한 번호가 맞는지 확인하는 기능");
+      console.log("");
+      
+      console.log("return input === this.#password");
+      console.log("├─ input: 사용자가 입력한 번호");
+      console.log("├─ this.#password: 진짜 비밀번호");
+      console.log("└─ ===: 두 개가 정확히 같은지 비교");
+      console.log("");
+      
+      console.log("const user = new User()");
+      console.log("└─ 설계도로 실제 사용자를 만드는 부분");
+      console.log("");
+      
+      console.log("user.checkPassword('1234')");
+      console.log("└─ 만들어진 사용자의 비밀번호 확인 기능 사용");
+
+      console.log("\n💡 핵심:");
+      console.log("# 기호 = 🔒 (자물쇠)");
+      console.log("외부에서 접근 불가능 = 안전함!");
+    </script>
+  </body>
+</html>

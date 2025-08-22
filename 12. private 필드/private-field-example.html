@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Private 필드 예시</title>
+  </head>
+  <body>
+    <h1>Private 필드(#) 예시</h1>
+
+    <script>
+      // 1. 일반 필드를 사용한 클래스 (누구나 접근 가능)
+      class PublicUser {
+        constructor(name) {
+          this.name = name;
+          this.password = "1234"; // 일반 필드 - 외부에서 접근 가능
+        }
+
+        checkPassword(input) {
+          return input === this.password;
+        }
+      }
+
+      // 2. Private 필드를 사용한 클래스 (클래스 내부에서만 접근 가능)
+      class PrivateUser {
+        #password = "1234"; // Private 필드 - 외부에서 접근 불가능
+
+        constructor(name) {
+          this.name = name; // 일반 필드는 여전히 외부 접근 가능
+        }
+
+        checkPassword(input) {
+          return input === this.#password; // 클래스 내부에서만 접근 가능
+        }
+
+        // Private 필드를 안전하게 변경하는 메서드
+        changePassword(oldPassword, newPassword) {
+          if (this.#password === oldPassword) {
+            this.#password = newPassword;
+            return "비밀번호가 변경되었습니다.";
+          } else {
+            return "기존 비밀번호가 틀렸습니다.";
+          }
+        }
+      }
+
+      // === 사용 예시 ===
+      console.log("=== 일반 필드 사용 ===");
+      const publicUser = new PublicUser("김철수");
+
+      console.log("이름:", publicUser.name); // "김철수"
+      console.log("비밀번호:", publicUser.password); // "1234" - 외부에서 접근 가능!
+
+      // 외부에서 비밀번호를 마음대로 변경할 수 있음 (위험!)
+      publicUser.password = "해킹당함";
+      console.log("변경된 비밀번호:", publicUser.password); // "해킹당함"
+
+      console.log("\n=== Private 필드 사용 ===");
+      const privateUser = new PrivateUser("이영희");
+
+      console.log("이름:", privateUser.name); // "이영희"
+
+      // Private 필드에 접근하려고 하면 undefined가 나옴
+      console.log("비밀번호 접근 시도:", privateUser.password); // undefined
+
+      // 아래 코드는 에러가 발생합니다!
+      try {
+        console.log(privateUser.#password); // SyntaxError!
+      } catch (error) {
+        console.log("Private 필드 직접 접근 불가:", error.message);
+      }
+
+      // 클래스에서 제공하는 메서드로만 비밀번호 확인 가능
+      console.log("비밀번호 확인:", privateUser.checkPassword("1234")); // true
+      console.log("비밀번호 확인:", privateUser.checkPassword("틀림")); // false
+
+      // 안전한 비밀번호 변경
+      console.log(privateUser.changePassword("1234", "새비밀번호")); // "비밀번호가 변경되었습니다."
+      console.log("새 비밀번호 확인:", privateUser.checkPassword("새비밀번호")); // true
+
+      // === 실생활 예시: 은행 계좌 클래스 ===
+      console.log("\n=== 실생활 예시: 은행 계좌 ===");
+
+      class BankAccount {
+        #balance = 0; // 잔액 - 외부에서 직접 수정하면 안됨!
+        #accountNumber; // 계좌번호 - 보안상 숨겨야 함
+
+        constructor(ownerName, initialBalance = 0) {
+          this.ownerName = ownerName; // 소유자명은 public
+          this.#balance = initialBalance; // 초기 잔액 설정
+          this.#accountNumber = this.#generateAccountNumber(); // 계좌번호 생성
+        }
+
+        // 계좌번호 생성 (내부 메서드)
+        #generateAccountNumber() {
+          return Math.floor(Math.random() * 1000000000)
+            .toString()
+            .padStart(10, "0");
+        }
+
+        // 잔액 조회 (읽기 전용)
+        getBalance() {
+          return this.#balance;
+        }
+
+        // 입금
+        deposit(amount) {
+          if (amount > 0) {
+            this.#balance += amount;
+            return `${amount}원이 입금되었습니다. 현재 잔액: ${
+              this.#balance
+            }원`;
+          } else {
+            return "입금액은 0보다 커야 합니다.";
+          }
+        }
+
+        // 출금
+        withdraw(amount) {
+          if (amount <= 0) {
+            return "출금액은 0보다 커야 합니다.";
+          }
+          if (amount > this.#balance) {
+            return "잔액이 부족합니다.";
+          }
+          this.#balance -= amount;
+          return `${amount}원이 출금되었습니다. 현재 잔액: ${this.#balance}원`;
+        }
+
+        // 계좌번호 확인 (마지막 4자리만 보여줌)
+        getAccountInfo() {
+          const maskedNumber = "*".repeat(6) + this.#accountNumber.slice(-4);
+          return `계좌주: ${this.ownerName}, 계좌번호: ${maskedNumber}`;
+        }
+      }
+
+      // 은행 계좌 사용 예시
+      const myAccount = new BankAccount("김개발자", 10000);
+
+      console.log(myAccount.getAccountInfo()); // 계좌 정보 확인
+      console.log("현재 잔액:", myAccount.getBalance()); // 10000원
+
+      console.log(myAccount.deposit(5000)); // 입금
+      console.log(myAccount.withdraw(3000)); // 출금
+
+      // 외부에서 잔액을 직접 수정하려고 해도 불가능!
+      console.log("잔액 직접 접근:", myAccount.balance); // undefined
+      myAccount.balance = 999999999; // 이렇게 해도 실제 잔액은 변경되지 않음
+      console.log("실제 잔액:", myAccount.getBalance()); // 여전히 12000원
+
+      // === 정리 ===
+      console.log("\n=== 정리 ===");
+      console.log("✅ Private 필드(#)의 장점:");
+      console.log("1. 외부에서 직접 접근 불가능 → 보안성 향상");
+      console.log("2. 데이터 무결성 보장 → 잘못된 값 설정 방지");
+      console.log("3. 클래스 내부 구현 숨김 → 캡슐화");
+      console.log("4. 안전한 데이터 조작 → 메서드를 통해서만 접근");
+    </script>
+  </body>
+</html>

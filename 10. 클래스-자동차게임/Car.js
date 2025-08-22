@@ -51,6 +51,9 @@ class Car {
   <small class="car-name">${this.name} 속도: ${this.x}px</small>
   `;
   }
+
+  checkCollistion() {
+    const 
 }
 
 class PoliceCar extends Car {
@@ -68,3 +71,5 @@ class PoliceCar extends Car {
     `;
   }
 }
+
+
