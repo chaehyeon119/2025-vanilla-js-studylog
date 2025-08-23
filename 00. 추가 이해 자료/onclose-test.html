@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>onClose 실수 테스트</title>
+  </head>
+  <body>
+    <h1>사용자가 onClose에서 할 수 있는 실수들</h1>
+
+    <button onclick="testCorrect()">✅ 올바른 사용</button>
+    <button onclick="testMissingParentheses()">❌ 괄호 빼먹음</button>
+    <button onclick="testString()">❌ 문자열로 착각</button>
+    <button onclick="testUndefined()">❌ undefined 변수</button>
+    <button onclick="testMissing()">❌ onClose 없음</button>
+
+    <div id="result"></div>
+
+    <script>
+      const result = document.getElementById("result");
+
+      // 간단한 MiniAlert 시뮬레이션
+      function simulateMiniAlert({ title, message, onClose }) {
+        result.innerHTML += `<h3>테스트: ${title}</h3>`;
+
+        // 타입 체크 없이 바로 호출해보기
+        try {
+          result.innerHTML += "<p>onClose 타입: " + typeof onClose + "</p>";
+          result.innerHTML += "<p>onClose 값: " + onClose + "</p>";
+
+          // 타입 체크 없이 호출
+          result.innerHTML += "<p>타입 체크 없이 onClose() 호출 시도...</p>";
+          onClose();
+          result.innerHTML += "<p style='color: green;'>✅ 성공!</p>";
+        } catch (error) {
+          result.innerHTML += `<p style='color: red;'>❌ 에러: ${error.message}</p>`;
+        }
+
+        // 타입 체크 후 호출
+        try {
+          result.innerHTML += "<p>타입 체크 후 onClose() 호출 시도...</p>";
+          if (typeof onClose === "function") {
+            onClose();
+            result.innerHTML +=
+              "<p style='color: green;'>✅ 타입 체크 후 성공!</p>";
+          } else {
+            result.innerHTML +=
+              "<p style='color: orange;'>⚠️ 함수가 아니어서 호출 안 함</p>";
+          }
+        } catch (error) {
+          result.innerHTML += `<p style='color: red;'>❌ 타입 체크해도 에러: ${error.message}</p>`;
+        }
+
+        result.innerHTML += "<hr>";
+      }
+
+      function testCorrect() {
+        result.innerHTML = "";
+        simulateMiniAlert({
+          title: "올바른 사용",
+          message: "내용",
+          onClose: () => console.log("정상 콜백"),
+        });
+      }
+
+      function testMissingParentheses() {
+        result.innerHTML = "";
+        // console.log("닫힘")는 즉시 실행되어 undefined를 반환
+        simulateMiniAlert({
+          title: "괄호 빼먹음",
+          message: "내용",
+          onClose: console.log("닫힘"), // undefined!
+        });
+      }
+
+      function testString() {
+        result.innerHTML = "";
+        simulateMiniAlert({
+          title: "문자열로 착각",
+          message: "내용",
+          onClose: "console.log('닫힘')",
+        });
+      }
+
+      function testUndefined() {
+        result.innerHTML = "";
+        // nonExistentFunction은 정의되지 않음
+        simulateMiniAlert({
+          title: "undefined 변수",
+          message: "내용",
+          onClose: window.nonExistentFunction, // undefined
+        });
+      }
+
+      function testMissing() {
+        result.innerHTML = "";
+        simulateMiniAlert({
+          title: "onClose 없음",
+          message: "내용",
+          // onClose 없음 → undefined
+        });
+      }
+    </script>
+  </body>
+</html>

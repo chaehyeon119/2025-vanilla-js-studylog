@@ -1303,6 +1303,30 @@ const user = {
 user.say(); // "1초 후: 채현"
 ```
 
+<this 예제 추가>
+// 예시: 게임 캐릭터 클래스
+class 게임캐릭터 {
+constructor({ 이름, 레벨, 체력, 초기메시지 }) {
+// 계속 사용하는 것들 → this에 저장
+this.이름 = 이름; // 공격할 때, 레벨업할 때 계속 사용
+this.레벨 = 레벨; // 경험치 계산할 때 계속 사용  
+ this.체력 = 체력; // 전투 중 계속 변경됨
+
+    // 한 번만 사용하는 것들 → this에 저장 안 함
+    // this.초기메시지 = 초기메시지;  // 불필요!
+    console.log(초기메시지);  // 여기서 한 번만 출력하고 끝
+
+}
+
+공격() {
+console.log(`${this.이름}이 공격했다!`); // 이름 계속 사용
+}
+
+레벨업() {
+this.레벨++; // 레벨 계속 사용
+}
+}
+
 **정리**
 
 | 함수 타입       | this 결정        | 상황별 this             |
@@ -1447,5 +1471,89 @@ document.querySelectorAll(".delete-btn").forEach((btn) => {
 > - 속성명은 `data-`로 시작해야 함
 > - 소문자와 하이픈(-)만 사용 가능
 > - JavaScript에서는 camelCase로 변환됨 (`data-user-name` → `dataset.userName`)
+
+### 클로저(Closure) 심화 이해
+
+#### 클로저가 왜 특별한가?
+
+일반적으로 함수가 끝나면 지역변수는 메모리에서 사라져야 합니다. 하지만 JavaScript는 나중에 사용될 변수를 자동으로 감지해서 보관해둡니다.
+
+```javascript
+// 일반적인 경우: 함수 끝나면 변수 사라짐
+function normalFunction() {
+  const localVar = "지역변수";
+  console.log(localVar); // 사용 가능
+} // 함수 끝 → localVar 메모리에서 해제
+
+// 클로저: 함수 끝나도 변수 보존
+function createClosure() {
+  const shouldDisappear = "사라져야 할 변수";
+
+  return function () {
+    console.log(shouldDisappear); // 🤯 어떻게 여전히 접근 가능?
+  };
+} // 함수 끝났는데도 shouldDisappear가 보존됨!
+
+const savedFunction = createClosure(); // createClosure 실행 완료
+savedFunction(); // "사라져야 할 변수" 출력 (클로저의 마법!)
+```
+
+#### MiniAlert에서 클로저 동작
+
+```javascript
+class MiniAlert {
+  constructor(message) {
+    this.message = message;
+    const tempMessage = "임시 메시지"; // 원래라면 constructor 끝나면 사라져야 함
+
+    setTimeout(() => {
+      console.log("A:", this.message); // 객체 속성이라 당연히 접근 가능
+      console.log("B:", tempMessage); // 클로저 덕분에 접근 가능!
+    }, 1000);
+  } // constructor 끝 → JavaScript가 tempMessage를 특별히 보관
+}
+```
+
+#### 클로저의 실용적 활용
+
+```javascript
+// 비공개 변수 만들기 (캡슐화)
+function createCounter(name) {
+  let count = 0; // 외부에서 직접 접근 불가능한 비공개 변수
+
+  return {
+    increment: function () {
+      count++; // 클로저로 count에 접근
+      console.log(`${name}: ${count}`);
+    },
+
+    getCount: function () {
+      return count; // 클로저로 count에 접근
+    },
+  };
+}
+
+const counter1 = createCounter("첫번째");
+const counter2 = createCounter("두번째");
+
+counter1.increment(); // 첫번째: 1
+counter2.increment(); // 두번째: 1
+counter1.increment(); // 첫번째: 2
+
+// count 변수에 직접 접근 불가능 (보안성)
+// console.log(count); // ❌ ReferenceError
+```
+
+> 📌 **클로저 핵심 정리**
+>
+> - **일반 함수**: 실행 완료 후 지역변수 메모리 해제
+> - **클로저**: JavaScript가 나중에 사용될 변수를 자동으로 보존
+> - **활용**: 비공개 변수, 모듈 패턴, 콜백 함수에서 데이터 유지
+
+---
+
+## 📚 추가 학습 자료
+
+### 비동기 처리 기초
 
 자바스크립트는 싱글 스레드(Single Threaded) 언어로 한 번에 하나의 작업만 수행할 수 있습니다. 그렇기 때문에 이렇게 여러 스레드를 사용해 작업을 처리하는 이 멀티 스레드(Multi Threaded) 방식으로는 작업을 처리할 수 없습니다.

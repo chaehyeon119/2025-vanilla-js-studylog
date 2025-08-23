@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MiniAlert</title>
+    <link rel="stylesheet" href="mini-alert/mini-alert.css" />
+    <script src="mini-alert/mini-alert.js" type="module"></script>
+  </head>
+  <body>
+    <button id="btn">미니얼럿 띄우기</button>
+
+    <!-- <div class="mini-alert-backdrop">
+    <div class="mini-alert">
+      <div class="mini-alert-content">
+        <h2 class="mini-alert-title">제목</h2>
+        <p class="mini-alert-message">메시지 내용</p>
+        <button class="mini-alert-close-btn">확인</button>
+      </div>
+    </div>
+  </div> -->
+
+    <script type="module">
+      import MiniAlert from "./mini-alert/mini-alert.js";
+
+      document.getElementById("btn").addEventListener("click", () => {
+        new MiniAlert({
+          title: "오오",
+          message: "축하합니다!",
+          onClose: () => {
+            console.log("미니얼럿이 닫히면서 실행되는 함수");
+          },
+          // 배경을 클릭해도 알림창이 닫히지 않음
+          closeBackdrop: false,
+        });
+      });
+    </script>
+  </body>
+</html>

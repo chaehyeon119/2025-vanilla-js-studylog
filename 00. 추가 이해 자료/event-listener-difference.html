@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>이벤트 리스너 this 차이</title>
+  <style>
+    button {
+      padding: 15px 20px;
+      margin: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .normal { background: #ff4757; color: white; }
+    .arrow { background: #2ed573; color: white; }
+    .result { 
+      background: #f1f2f6; 
+      padding: 10px; 
+      margin: 10px 0; 
+      border-radius: 5px; 
+      border-left: 4px solid #3742fa;
+    }
+  </style>
+</head>
+<body>
+  <h1>이벤트 리스너에서 this 차이점</h1>
+  
+  <div class="result">
+    <h3>🔴 빨간 버튼 (일반 함수)</h3>
+    <p>버튼이 직접 sayHello를 실행하려고 해서 this = 버튼이 됩니다</p>
+  </div>
+  
+  <div class="result">
+    <h3>🟢 초록 버튼 (화살표 함수)</h3>
+    <p>화살표 함수가 Person 객체의 sayHello를 호출해서 this = Person이 됩니다</p>
+  </div>
+  
+  <button class="normal" id="normalBtn">일반 함수 테스트 (문제)</button>
+  <button class="arrow" id="arrowBtn">화살표 함수 테스트 (해결)</button>
+  
+  <div id="output"></div>
+  
+  <script>
+    const output = document.getElementById('output');
+    
+    class Person {
+      constructor(name) {
+        this.name = name;
+        this.greeting = "안녕하세요!";
+      }
+      
+      sayHello() {
+        // this가 누구인지 확인해보기
+        output.innerHTML += `<div class="result">`;
+        output.innerHTML += `<h4>sayHello 함수 실행됨</h4>`;
+        output.innerHTML += `<p><strong>this는:</strong> ${this.constructor?.name || this.tagName || '알수없음'}</p>`;
+        
+        if (this.name) {
+          output.innerHTML += `<p style="color: green;"><strong>✅ 성공:</strong> ${this.name}이 "${this.greeting}"라고 말했습니다</p>`;
+        } else {
+          output.innerHTML += `<p style="color: red;"><strong>❌ 실패:</strong> this.name이 없어서 인사할 수 없습니다</p>`;
+          output.innerHTML += `<p>this.name = ${this.name}</p>`;
+          output.innerHTML += `<p>this.greeting = ${this.greeting}</p>`;
+        }
+        output.innerHTML += `</div>`;
+      }
+    }
+    
+    const person = new Person("김철수");
+    
+    // 🔴 일반 함수: 문제 발생
+    document.getElementById('normalBtn').addEventListener('click', person.sayHello);
+    //                                                                    ↑
+    //                                                     버튼이 이 함수를 호출함
+    //                                                     → this = 버튼
+    
+    // 🟢 화살표 함수: 해결
+    document.getElementById('arrowBtn').addEventListener('click', () => {
+      person.sayHello();  // person이 함수를 호출함 → this = person
+    });
+    
+    // 설명 추가
+    output.innerHTML = `
+      <div class="result">
+        <h3>🧪 실험해보세요!</h3>
+        <p>두 버튼을 클릭해서 차이점을 확인해보세요</p>
+        <ul>
+          <li><strong>빨간 버튼:</strong> 버튼 자체가 sayHello를 실행 (this = button)</li>
+          <li><strong>초록 버튼:</strong> Person 객체가 sayHello를 실행 (this = person)</li>
+        </ul>
+      </div>
+    `;
+  </script>
+</body>
+</html>

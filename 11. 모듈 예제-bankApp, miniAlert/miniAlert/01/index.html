@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>miniAlert</title>
+    <link rel="stylesheet" href="./mini-alert.css" />
+    <!-- ES6 모듈 시스템을 사용하기 위해 type="module" 필수(아래 코드는 없어도 작동 됨) -->
+    <!-- <script src="./mini-alert.js" type="module"></script> -->
+    <!--
+    1) HTML: 버튼 클릭 → new MiniAlert() 호출
+    2) 생성자: 매개변수 받아서 → this에 저장 → DOM 만들기 → 이벤트 설정
+    3) 이벤트: 사용자 클릭 → 적절한 동작 실행
+    4) 종료: close() 함수로 얼럿 제거 -->
+  </head>
+  <body>
+    <button id="btn">미니얼럿 띄우기</button>
+
+    <!-- 인라인 스크립트도 모듈로 실행(따로 script 상/하단에 붙이지 않아도 아래 import문이 자동 로드) -->
+    <!-- type = "module" 없으면 코드 에러 발생-->
+    <script type="module">
+      import MiniAlert from "./mini-alert.js";
+
+      document.getElementById("btn").addEventListener("click", () => {
+        new MiniAlert({
+          title: "오오", //title 매개변수로 전달
+          message: "축하합니다!", // message 매개변수로 전달
+          onClose: () => {
+            // onClose 매개변수로 전달
+            console.log("미니 얼럿이 닫히면서 실행되는 함수");
+          },
+          closeBackdrop: false, // closeBackdrop 매개변수로 전달
+        });
+      });
+    </script>
+  </body>
+</html>

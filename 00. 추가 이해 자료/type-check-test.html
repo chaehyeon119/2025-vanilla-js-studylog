@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Type Check 테스트</title>
+</head>
+<body>
+  <h1>onClose Type Check 테스트</h1>
+  
+  <button onclick="testWithoutTypeCheck()">Type Check 없이 테스트 (에러 발생)</button>
+  <button onclick="testWithTypeCheck()">Type Check 있는 테스트 (안전)</button>
+  
+  <div id="result"></div>
+  
+  <script>
+    const result = document.getElementById('result');
+    
+    // Type Check 없는 위험한 함수
+    function closeWithoutCheck(onClose) {
+      try {
+        console.log("Type Check 없이 onClose 호출 시도...");
+        onClose();  // ❌ 여기서 에러 날 수 있음!
+        result.innerHTML += "<p style='color: green;'>✅ 성공: onClose() 호출됨</p>";
+      } catch (error) {
+        result.innerHTML += `<p style='color: red;'>❌ 에러: ${error.message}</p>`;
+      }
+    }
+    
+    // Type Check 있는 안전한 함수
+    function closeWithCheck(onClose) {
+      try {
+        console.log("Type Check 후 onClose 호출 시도...");
+        if (typeof onClose === "function") {
+          onClose();
+          result.innerHTML += "<p style='color: green;'>✅ 성공: onClose() 호출됨</p>";
+        } else {
+          result.innerHTML += "<p style='color: orange;'>⚠️ onClose가 함수가 아니어서 호출 안 함</p>";
+        }
+      } catch (error) {
+        result.innerHTML += `<p style='color: red;'>❌ 에러: ${error.message}</p>`;
+      }
+    }
+    
+    function testWithoutTypeCheck() {
+      result.innerHTML = "<h3>Type Check 없는 테스트 결과:</h3>";
+      
+      // 여러 타입의 값들로 테스트
+      const testValues = [
+        { name: "함수", value: () => console.log("정상 함수") },
+        { name: "문자열", value: "이건 문자열이야" },
+        { name: "숫자", value: 123 },
+        { name: "null", value: null },
+        { name: "undefined", value: undefined },
+        { name: "객체", value: { name: "객체" } }
+      ];
+      
+      testValues.forEach(test => {
+        result.innerHTML += `<h4>${test.name} 테스트:</h4>`;
+        closeWithoutCheck(test.value);
+      });
+    }
+    
+    function testWithTypeCheck() {
+      result.innerHTML = "<h3>Type Check 있는 테스트 결과:</h3>";
+      
+      const testValues = [
+        { name: "함수", value: () => console.log("정상 함수") },
+        { name: "문자열", value: "이건 문자열이야" },
+        { name: "숫자", value: 123 },
+        { name: "null", value: null },
+        { name: "undefined", value: undefined },
+        { name: "객체", value: { name: "객체" } }
+      ];
+      
+      testValues.forEach(test => {
+        result.innerHTML += `<h4>${test.name} 테스트:</h4>`;
+        closeWithCheck(test.value);
+      });
+    }
+  </script>
+</body>
+</html>

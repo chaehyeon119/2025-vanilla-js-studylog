@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>클로저 테스트</title>
+</head>
+<body>
+  <h1>클로저(Closure) 이해하기</h1>
+  
+  <button onclick="testClosure()">클로저 테스트</button>
+  <button onclick="testMiniAlert()">MiniAlert 테스트</button>
+  
+  <div id="result"></div>
+  
+  <script>
+    const result = document.getElementById('result');
+    
+    // 클로저 예시 1: 기본 개념
+    function testClosure() {
+      result.innerHTML = "<h3>클로저 테스트:</h3>";
+      
+      function outerFunction() {
+        const outerVariable = "외부 함수의 변수";
+        
+        function innerFunction() {
+          // 내부 함수가 외부 함수의 변수를 "기억"함
+          result.innerHTML += `<p>내부 함수에서 접근: ${outerVariable}</p>`;
+        }
+        
+        return innerFunction;
+      }
+      
+      const myFunction = outerFunction();  // outerFunction 실행 완료
+      
+      setTimeout(() => {
+        myFunction();  // 외부 함수가 끝났는데도 변수에 접근 가능!
+      }, 1000);
+    }
+    
+    // MiniAlert 실제 테스트
+    function testMiniAlert() {
+      result.innerHTML = "<h3>MiniAlert 실제 테스트:</h3>";
+      
+      class MiniAlert {
+        constructor(message) {
+          this.message = message;
+          const tempMessage = "임시 메시지";  // 지역변수
+          
+          result.innerHTML += "<p>constructor 실행 중...</p>";
+          
+          setTimeout(() => {
+            try {
+              result.innerHTML += `<p style='color: green;'>A: ${this.message}</p>`;
+              result.innerHTML += `<p style='color: green;'>B: ${tempMessage}</p>`;  // 클로저로 접근 가능!
+            } catch (error) {
+              result.innerHTML += `<p style='color: red;'>에러: ${error.message}</p>`;
+            }
+          }, 2000);
+          
+          result.innerHTML += "<p>constructor 실행 완료!</p>";
+        }
+      }
+      
+      new MiniAlert("안녕하세요");
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>this 퀴즈 테스트</title>
+  </head>
+  <body>
+    <h1>this 퀴즈 실제 테스트</h1>
+
+    <button onclick="testQ2()">Q2 테스트 (스코프 문제)</button>
+    <button onclick="testQ3()">Q3 테스트 (이벤트 리스너)</button>
+
+    <div id="result"></div>
+
+    <script>
+      const result = document.getElementById("result");
+
+      // Q2 테스트
+      function testQ2() {
+        result.innerHTML = "<h3>Q2 스코프 테스트:</h3>";
+
+        class MiniAlert {
+          constructor(message) {
+            this.message = message;
+            const tempMessage = "임시 메시지";
+
+            setTimeout(() => {
+              try {
+                result.innerHTML += `<p>A: ${this.message}</p>`; // 성공
+              } catch (error) {
+                result.innerHTML += `<p style='color: red;'>A 에러: ${error.message}</p>`;
+              }
+
+              try {
+                result.innerHTML += `<p>B: ${tempMessage}</p>`; // 에러!
+              } catch (error) {
+                result.innerHTML += `<p style='color: red;'>B 에러: ${error.message}</p>`;
+              }
+            }, 2000);
+          }
+        }
+
+        new MiniAlert("안녕하세요");
+      }
+
+      // Q3 테스트
+      function testQ3() {
+        result.innerHTML = "<h3>Q3 이벤트 리스너 테스트:</h3>";
+
+        class Button {
+          constructor() {
+            this.clickCount = 0;
+
+            // 테스트 버튼 생성
+            const testButton = document.createElement("button");
+            testButton.textContent = "테스트 클릭";
+            result.appendChild(testButton);
+
+            // 방법 A (문제 있음)
+            testButton.addEventListener("click", this.handleClick);
+          }
+
+          handleClick() {
+            try {
+              this.clickCount++; // this가 Button 객체가 아님!
+              result.innerHTML += `<p>클릭 횟수: ${this.clickCount}</p>`;
+            } catch (error) {
+              result.innerHTML += `<p style='color: red;'>에러: ${error.message}</p>`;
+            }
+          }
+        }
+
+        new Button();
+      }
+    </script>
+  </body>
+</html>

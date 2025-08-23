@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>this 비교 테스트</title>
+  </head>
+  <body>
+    <h1>화살표 함수 vs 일반 함수의 this 차이</h1>
+
+    <div id="result"></div>
+
+    <script>
+      const result = document.getElementById("result");
+
+      // 카운터 클래스
+      class Counter {
+        constructor(name) {
+          this.name = name;
+          this.count = 0;
+          this.setupButtons();
+        }
+
+        setupButtons() {
+          // 일반 함수 버튼
+          const normalButton = document.createElement("button");
+          normalButton.textContent = `일반 함수 (${this.name})`;
+          normalButton.style.margin = "10px";
+          normalButton.style.padding = "10px";
+          normalButton.style.backgroundColor = "#ff4757";
+          normalButton.style.color = "white";
+          normalButton.style.border = "none";
+          normalButton.style.borderRadius = "5px";
+
+          // 화살표 함수 버튼
+          const arrowButton = document.createElement("button");
+          arrowButton.textContent = `화살표 함수 (${this.name})`;
+          arrowButton.style.margin = "10px";
+          arrowButton.style.padding = "10px";
+          arrowButton.style.backgroundColor = "#2ed573";
+          arrowButton.style.color = "white";
+          arrowButton.style.border = "none";
+          arrowButton.style.borderRadius = "5px";
+
+          document.body.appendChild(normalButton);
+          document.body.appendChild(arrowButton);
+          document.body.appendChild(document.createElement("br"));
+
+          // ❌ 일반 함수: this가 button으로 바뀜
+          normalButton.addEventListener("click", this.handleClick);
+
+          // ✅ 화살표 함수: this가 Counter 객체 유지
+          arrowButton.addEventListener("click", () => {
+            this.handleClick();
+          });
+        }
+
+        handleClick() {
+          try {
+            // this가 뭔지 확인
+            result.innerHTML += `<p><strong>this는:</strong> ${
+              this.constructor?.name || this.tagName || "알 수 없음"
+            }</p>`;
+
+            if (this.name && typeof this.count === "number") {
+              this.count++;
+              result.innerHTML += `<p style='color: green;'>✅ ${this.name}의 카운트: ${this.count}</p>`;
+            } else {
+              result.innerHTML += `<p style='color: red;'>❌ this.name: ${this.name}, this.count: ${this.count}</p>`;
+            }
+          } catch (error) {
+            result.innerHTML += `<p style='color: red;'>❌ 에러: ${error.message}</p>`;
+          }
+
+          result.innerHTML += "<hr>";
+        }
+      }
+
+      // 두 개의 카운터 생성
+      new Counter("카운터A");
+      new Counter("카운터B");
+
+      result.innerHTML = "<h3>결과:</h3>";
+    </script>
+  </body>
+</html>

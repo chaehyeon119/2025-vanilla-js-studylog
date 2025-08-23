@@ -1,0 +1,23 @@
+.mini-alert-backdrop {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* 모달, 네비게이션 바, 플로팅 버튼에 주로 사용(스크롤해도 화면에서 절대 움직이지 않음) */
+  /* absolute는 스크롤하면 함께 움직임 */
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.mini-alert {
+  min-width: 200px;
+  max-width: 500px;
+  padding: 2rem;
+  border-radius: 8px;
+  background: white;
+  box-shadow: rgba(0, 0, 0, 0.2) 15px 15px 0;
+}

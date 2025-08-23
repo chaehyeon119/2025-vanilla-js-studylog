@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>스코프 테스트</title>
+</head>
+<body>
+  <h1>this vs 일반변수 스코프 테스트</h1>
+  
+  <button onclick="testThisVersion()">this 사용 버전 (정상)</button>
+  <button onclick="testVariableVersion()">일반변수 버전 (에러)</button>
+  
+  <div id="result"></div>
+  
+  <script>
+    const result = document.getElementById('result');
+    
+    // ✅ this 사용 버전 (정상 동작)
+    class MiniAlertWithThis {
+      constructor({ closeBackdrop, onClose }) {
+        this.closeBackdrop = closeBackdrop;  // this에 저장
+        this.onClose = onClose;              // this에 저장
+        
+        // 이벤트 리스너 설정
+        setTimeout(() => {
+          // 나중에 실행되는 함수에서 this로 접근 가능!
+          if (this.closeBackdrop) {
+            result.innerHTML += "<p style='color: green;'>✅ this.closeBackdrop 접근 성공!</p>";
+            if (typeof this.onClose === "function") {
+              this.onClose();
+              result.innerHTML += "<p style='color: green;'>✅ this.onClose() 호출 성공!</p>";
+            }
+          }
+        }, 1000);
+      }
+    }
+    
+    // ❌ 일반변수 사용 버전 (에러 발생)
+    class MiniAlertWithVariable {
+      constructor({ closeBackdrop, onClose }) {
+        const myCloseBackdrop = closeBackdrop;  // 일반 변수로 저장
+        const myOnClose = onClose;              // 일반 변수로 저장
+        
+        // 이벤트 리스너 설정
+        setTimeout(() => {
+          try {
+            // 나중에 실행되는 함수에서 일반 변수에 접근 시도
+            if (myCloseBackdrop) {  // ❌ ReferenceError!
+              result.innerHTML += "<p style='color: green;'>✅ myCloseBackdrop 접근 성공!</p>";
+              if (typeof myOnClose === "function") {
+                myOnClose();
+              }
+            }
+          } catch (error) {
+            result.innerHTML += `<p style='color: red;'>❌ 에러: ${error.message}</p>`;
+          }
+        }, 1000);
+      }
+    }
+    
+    function testThisVersion() {
+      result.innerHTML = "<h3>this 사용 버전 테스트:</h3>";
+      new MiniAlertWithThis({
+        closeBackdrop: true,
+        onClose: () => console.log("this 버전 콜백 실행!")
+      });
+    }
+    
+    function testVariableVersion() {
+      result.innerHTML = "<h3>일반변수 버전 테스트:</h3>";
+      new MiniAlertWithVariable({
+        closeBackdrop: true,
+        onClose: () => console.log("변수 버전 콜백 실행!")
+      });
+    }
+  </script>
+</body>
+</html>

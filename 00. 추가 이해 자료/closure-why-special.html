@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>클로저가 왜 특별한지 테스트</title>
+</head>
+<body>
+  <h1>클로저가 왜 특별한가?</h1>
+  
+  <button onclick="testNormalFunction()">일반 함수 테스트</button>
+  <button onclick="testClosure()">클로저 테스트</button>
+  <button onclick="testMultipleClosure()">여러 클로저 테스트</button>
+  
+  <div id="result"></div>
+  
+  <script>
+    const result = document.getElementById('result');
+    
+    // 일반적인 함수 동작
+    function testNormalFunction() {
+      result.innerHTML = "<h3>일반 함수 테스트:</h3>";
+      
+      function normalFunction() {
+        const localVar = "지역변수";
+        result.innerHTML += `<p>함수 실행 중: ${localVar}</p>`;
+        return localVar; // 값을 반환
+      }
+      
+      const returnedValue = normalFunction(); // 함수 실행 완료
+      result.innerHTML += `<p>함수 실행 후 반환값: ${returnedValue}</p>`;
+      // localVar 자체에는 더 이상 접근할 수 없음
+    }
+    
+    // 클로저 동작
+    function testClosure() {
+      result.innerHTML = "<h3>클로저 테스트:</h3>";
+      
+      function createClosure() {
+        const closureVar = "클로저 변수"; // 이 변수가 특별해짐!
+        
+        result.innerHTML += `<p>함수 실행 중: ${closureVar}</p>`;
+        
+        // 내부 함수가 closureVar를 "기억"함
+        return function() {
+          result.innerHTML += `<p>나중에 접근: ${closureVar}</p>`;
+        };
+      }
+      
+      const savedFunction = createClosure(); // createClosure 실행 완료
+      result.innerHTML += `<p>createClosure 함수 실행 완료!</p>`;
+      
+      // 1초 후 저장된 함수 실행
+      setTimeout(() => {
+        result.innerHTML += `<p>1초 후 실행:</p>`;
+        savedFunction(); // closureVar에 여전히 접근 가능!
+      }, 1000);
+    }
+    
+    // 여러 개의 독립적인 클로저
+    function testMultipleClosure() {
+      result.innerHTML = "<h3>여러 클로저 테스트:</h3>";
+      
+      function createCounter(name) {
+        let count = 0; // 각각 독립적인 count 변수
+        
+        return function() {
+          count++;
+          result.innerHTML += `<p>${name} 카운터: ${count}</p>`;
+        };
+      }
+      
+      const counter1 = createCounter("첫번째");
+      const counter2 = createCounter("두번째");
+      
+      // 각각 독립적으로 동작
+      counter1(); // 첫번째 카운터: 1
+      counter1(); // 첫번째 카운터: 2
+      counter2(); // 두번째 카운터: 1
+      counter1(); // 첫번째 카운터: 3
+      counter2(); // 두번째 카운터: 2
+    }
+  </script>
+</body>
+</html>

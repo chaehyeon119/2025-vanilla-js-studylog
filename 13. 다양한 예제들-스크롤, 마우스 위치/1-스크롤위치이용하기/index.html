@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        margin: 0;
+      }
+
+      #info {
+        position: fixed;
+        left: 20px;
+        top: 20px;
+      }
+      .section {
+        box-sizing: border-box;
+        height: 100vh;
+        padding: 5rem;
+        border: 1px solid red;
+      }
+      .section:nth-child(odd) {
+        text-align: right;
+        background-color: pink;
+      }
+      .progress {
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 10px;
+        background: blue;
+      }
+      .star {
+        position: fixed;
+        left: 50px;
+        top: 50px;
+        font-size: 100px;
+        transform-origin: top;
+      }
+    </style>
+  </head>
+  <div class="progress"></div>
+  <div class="star">⭐️</div>
+  <body>
+    <p id="info">info</p>
+    <div class="sections">
+      <section class="section">
+        <h2>Section 0</h2>
+      </section>
+      <section class="section">
+        <h2>Section 1</h2>
+      </section>
+      <section class="section">
+        <h2>Section 2</h2>
+      </section>
+      <section class="section">
+        <h2>Section 3</h2>
+      </section>
+      <section class="section">
+        <h2>Section 4</h2>
+      </section>
+    </div>
+    <script>
+      let info = document.getElementById("info");
+      const progress = document.querySelector(".progress");
+      const star = document.querySelector(".star");
+
+      window.addEventListener("scroll", (e) => {
+        // console.log(window.scrollY); //현재 스크롤 위치
+        const scrollRatio =
+          window.scrollY / (document.body.scrollHeight - window.innerHeight);
+
+        progress.style.width = window.innerWidth * scrollRatio + "px";
+        star.style.transform = `rotate(${360 * scrollRatio}deg)`;
+      });
+    </script>
+  </body>
+</html>
