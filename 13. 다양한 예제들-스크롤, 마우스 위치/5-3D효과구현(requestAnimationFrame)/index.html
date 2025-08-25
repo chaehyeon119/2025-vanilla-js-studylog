@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>문서 제목</title>
+    <style>
+      body {
+        margin: 0;
+      }
+      .panel-3d-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100vw;
+        height: 100vh;
+        perspective: 1000px;
+      }
+
+      .panel-3d {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 80vw;
+        height: 80vh;
+        font-size: 50px;
+        background: rgba(0, 0, 255, 0.5);
+        transform: rotateX(20deg);
+      }
+
+      #info {
+        position: fixed;
+        left: 30px;
+        top: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <p id="info"></p>
+
+    <div class="panel-3d-wrapper">
+      <div class="panel-3d">3D 패널</div>
+    </div>
+
+    <script>
+      const panel = document.querySelector(".panel-3d");
+      const maxAngle = 30;
+      let targetRotationX = 0; // 목표 X값
+      let targetRotationY = 0; // 목표 Y값
+      let currentRotationX = 0; // 현재 X값
+      let currentRotationY = 0; // 현재 Y값
+      const speed = 0.05;
+
+      window.addEventListener("mousemove", (e) => {
+        // 마우스 위치를 -1에서 1까지의 값으로 변경
+        // 가운데 0으로 만들고 -1 ~ 1 범위를 만들기 위해 *2-1 처리
+        const mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+        const mouseY = (e.clientY / window.innerHeight) * 2 - 1;
+
+        // 목표 회전값
+        targetRotationY = mouseX * maxAngle;
+        targetRotationX = mouseY * maxAngle;
+      });
+
+      function animate() {
+        currentRotationX += (targetRotationX - currentRotationX) * speed;
+        currentRotationY += (targetRotationY - currentRotationY) * speed;
+
+        panel.style.transform = `
+        rotateX(${-currentRotationY}deg)
+        rotateY(${currentRotationY}deg)
+        `;
+
+        requestAnimationFrame(animate);
+      }
+
+      animate();
+    </script>
+  </body>
+</html>

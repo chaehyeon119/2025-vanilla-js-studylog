@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        margin: 0;
+      }
+
+      #info {
+        position: fixed;
+        left: 20px;
+        top: 20px;
+      }
+      .section {
+        box-sizing: border-box;
+        height: 100vh;
+        padding: 5rem;
+        border: 1px solid red;
+      }
+      .section:nth-child(odd) {
+        text-align: right;
+        background-color: pink;
+      }
+      .progress {
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 10px;
+        background: blue;
+      }
+      .star {
+        position: fixed;
+        left: 50px;
+        top: 50px;
+        font-size: 100px;
+        transform-origin: top;
+      }
+    </style>
+  </head>
+  <div class="progress"></div>
+  <div class="star">⭐️</div>
+  <body>
+    <p id="info">info</p>
+    <div class="sections">
+      <section class="section">
+        <h2>Section 0</h2>
+      </section>
+      <section class="section">
+        <h2>Section 1</h2>
+      </section>
+      <section class="section">
+        <h2>Section 2</h2>
+      </section>
+      <section class="section">
+        <h2>Section 3</h2>
+      </section>
+      <section class="section">
+        <h2>Section 4</h2>
+      </section>
+    </div>
+    <script>
+      let info = document.getElementById("info");
+      const progress = document.querySelector(".progress");
+      const star = document.querySelector(".star");
+      let currentSection = 0;
+
+      window.addEventListener("scroll", (e) => {
+        info.innerHTML = `
+현재 스크롤 위치(window.scrollY): ${window.scrollY}<br>
+현재 스크롤 위치 / 브라우저 창 높이: ${window.scrollY / window.innerHeight}
+`;
+        // Math.round(반올림)
+        // 아래 코드는 호출을 너무 많이 해서 비효율적
+        const newSection = Math.round(window.scrollY / window.innerHeight);
+        // console.log(newSection);
+
+        if (currentSection != newSection) {
+          console.log("세 섹션 진입");
+          console.log(
+            `currentSection: ${currentSection}, newSection: ${newSection}`
+          );
+          currentSection = newSection;
+          console.log(`새로운 currentSection: ${currentSection}`);
+          // 새 섹션 진입 시 실행할 코드 작성
+          showEffect(newSection);
+        }
+      });
+
+      function showEffect(index) {
+        console.log(`${index}번 섹션에서 뭔가 하기`);
+      }
+
+      showEffect(currentSection);
+    </script>
+  </body>
+</html>

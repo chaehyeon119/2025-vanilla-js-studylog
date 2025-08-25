@@ -1,0 +1,51 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  /* container 폭에 따라 img 크기를 맞춤 */
+  max-width: 100%;
+  /* 안전하게 height도 auto로 설정(옛날에는 안되는 경우가 있었어서 추가함) */
+  height: auto;
+}
+
+.slide {
+  /* 밖으로 나간 것들을 숨기는 작업 */
+  overflow: hidden;
+}
+
+.slide-wrapper {
+  display: flex;
+  transition: transform 0.5s ease-out;
+}
+
+.slide-item {
+  /* slide-item의 이미지가 줄어들지 않기 위해 0으로 함 */
+  flex-shrink: 0;
+  /* 컨테이너 너비 기준으로 width 100% */
+  width: 100%;
+  /* 이미지 하단에 약간의 공간이 생겨서 없애기 위함(font-size: 0)도 같은 결과 */
+  line-height: 0;
+}
+
+.slide-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 0;
+}
+
+.slide-pagination-item {
+  width: 10px;
+  height: 10px;
+  /* 원gud으로 만드는 작업 */
+  border-radius: 50%;
+  background-color: lightgray;
+  cursor: pointer;
+}
+
+.slide-pagination-item.active {
+  background: #333;
+}

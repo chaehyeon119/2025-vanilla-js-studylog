@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>이미지 슬라이더</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div id="temp" style="width: 50vw; outline: 1px solid black"></div>
+    <script type="module">
+      import MiniSlider from "./MiniSlider.js";
+
+      new MiniSlider({
+        containerSelector: "#temp",
+      });
+    </script>
+  </body>
+</html>
