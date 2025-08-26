@@ -10,14 +10,14 @@
       function question() {
         return new Promise((resolve, reject) => {
           setTimeout(() => {
-            const result = prompt("전주 최고의 맛집은?");
+            const result = promt("전주 최고의 맛집은?");
 
             if (result === "허가낸닭발") {
               // 성공
-              resolve("정답입니다!");
+              resolve("맞았어요!");
             } else {
               // 실패
-              reject("틀렸습니다!");
+              reject("땡!");
             }
           }, 1000);
         });
@@ -27,8 +27,8 @@
         .then((result) => {
           console.log(result);
         })
-        .catch((result) => {
-          console.log(result);
+        .catch((err) => {
+          console.log(err);
         });
 
       // Promise의 상태

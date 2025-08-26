@@ -7,38 +7,120 @@
   </head>
   <body>
     <script>
+      // 🎯 이 예제의 목적: Promise 체이닝(연결)을 통한 순차적 비동기 작업 처리하기
+      // Promise 체이닝은 여러 개의 비동기 작업을 순서대로 실행할 때 사용하는 기법입니다
+      // 실제 웹사이트에서는: 사용자 로그인 → 데이터 가져오기 → 화면 업데이트 순서로 작업할 때 사용합니다
+
+      // 1. 사용자에게 질문을 하고 답변을 받는 함수
+      // 이 함수는 Promise를 반환하여 비동기적으로 작동합니다
       function question() {
+        // 2. 새로운 Promise 객체 생성
+        // Promise는 "나중에 결과를 줄게"라는 약속입니다
         return new Promise((resolve, reject) => {
+          // 3. 1초 후에 실행되는 타이머 설정
+          // setTimeout은 "1초 후에 이 코드를 실행해"라는 명령어입니다
           setTimeout(() => {
+            // 4. 사용자에게 질문하기
+            // prompt는 사용자에게 입력창을 띄우는 도구입니다
             const result = prompt("전주 최고의 맛집은?");
 
+            // 5. 사용자 답변 확인하기
             if (result === "허가낸닭발") {
-              // 성공
+              // 6. 정답인 경우 성공 처리
+              // resolve는 "성공했어!"라고 알려주는 함수입니다
               resolve("정답입니다!");
             } else {
-              // 실패
+              // 7. 틀린 경우 실패 처리
+              // reject는 "실패했어!"라고 알려주는 함수입니다
               reject("틀렸습니다!");
             }
-          }, 1000);
+          }, 1000); // 1000ms = 1초
         });
       }
 
-      function step1() {
-        return new Promise();
+      // 8. 첫 번째 단계 작업을 수행하는 함수
+      // 이 함수도 Promise를 반환하여 비동기적으로 작동합니다
+      function step1(value) {
+        // 9. 새로운 Promise 객체 생성
+        return new Promise((resolve) => {
+          // 10. 1초 후에 실행되는 타이머 설정
+          setTimeout(() => {
+            // 11. 전달받은 값을 콘솔에 출력하기
+            console.log("step1 입력값:", value);
+            // 12. 작업 완료 후 결과 반환
+            // resolve는 Promise를 성공으로 완료시키는 함수입니다
+            resolve("step1의 resolve에 넣은 값");
+          }, 1000); // 1초 대기
+        });
       }
 
+      // 13. 두 번째 단계 작업을 수행하는 함수
+      function step2(value) {
+        // 14. 새로운 Promise 객체 생성
+        return new Promise((resolve) => {
+          // 15. 1초 후에 실행되는 타이머 설정
+          setTimeout(() => {
+            // 16. 전달받은 값을 콘솔에 출력하기
+            console.log("step2 입력값: ", value);
+            // 17. 작업 완료 후 결과 반환
+            resolve("step2의 resolve에 넣은 값");
+          }, 1000); // 1초 대기
+        });
+      }
+
+      // 18. Promise 체이닝 시작 (순차적 실행)
+      // 각 단계가 완료된 후 다음 단계가 실행됩니다
       question()
         .then((result) => {
-          console.log(result);
+          // 19. question 함수가 성공했을 때 실행되는 코드
+          // result는 question 함수에서 resolve로 전달한 값입니다
+          console.log("question 성공, 정답 맞춤!", result);
+          // 20. step1 함수를 호출하고 그 결과를 다음 단계로 전달
+          // return을 하면 다음 .then()에서 그 값을 받을 수 있습니다
+          return step1(result);
         })
-        .catch((result) => {
-          console.log(result);
+        .then((result) => {
+          // 21. step1 함수가 성공했을 때 실행되는 코드
+          // result는 step1 함수에서 resolve로 전달한 값입니다
+          console.log("step1 성공", result);
+          // 22. step2 함수를 호출하고 그 결과를 다음 단계로 전달
+          return step2(result);
+        })
+        .then((result) => {
+          // 23. step2 함수가 성공했을 때 실행되는 코드
+          // result는 step2 함수에서 resolve로 전달한 값입니다
+          console.log("step2 성공", result);
+          // 24. 마지막 단계이므로 return 없음
+        })
+        .catch((err) => {
+          // 25. 어느 단계에서든 에러가 발생했을 때 실행되는 코드
+          // err는 에러 정보를 담고 있습니다
+          console.error(err);
+        })
+        .finally(() => {
+          // 26. 성공하든 실패하든 마지막에 항상 실행되는 코드
+          // 1초 후에 "FINALLYYYYYY"를 출력합니다
+          setTimeout(() => {
+            console.log("FINALLYYYYYY");
+          }, 1000);
         });
 
-      // Promise의 상태
-      // 성공: fulfilled
-      // 실패: rejected
-      // 처리중: pending
+      // 📚 Promise 체이닝의 실행 순서:
+      // 1. question() 실행 → 사용자 입력 대기
+      // 2. 정답이면 → step1() 실행
+      // 3. step1() 완료 → step2() 실행
+      // 4. step2() 완료 → 체이닝 종료
+      // 5. finally() 실행 → 마무리
+
+      // 🔍 각 단계에서 전달되는 값:
+      // question() → "정답입니다!" → step1()
+      // step1() → "step1의 resolve에 넣은 값" → step2()
+      // step2() → "step2의 resolve에 넣은 값" → 마지막 .then()
+
+      // 💡 Promise 체이닝의 장점:
+      // - 순차적 실행: 한 번에 하나씩 차례대로 실행
+      // - 에러 처리: 어느 단계에서든 에러가 발생하면 .catch()로 처리
+      // - 코드 가독성: 복잡한 비동기 작업을 깔끔하게 표현
     </script>
   </body>
 </html>
