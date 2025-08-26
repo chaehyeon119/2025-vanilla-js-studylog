@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function question() {
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            const result = prompt("전주 최고의 맛집은?");
+
+            if (result === "허가낸닭발") {
+              // 성공
+              resolve("정답입니다!");
+            } else {
+              // 실패
+              reject("틀렸습니다!");
+            }
+          }, 1000);
+        });
+      }
+
+      question()
+        .then((result) => {
+          console.log(result);
+        })
+        .catch((result) => {
+          console.log(result);
+        });
+
+      // Promise의 상태
+      // 성공: fulfilled
+      // 실패: rejected
+      // 처리중: pending
+    </script>
+  </body>
+</html>

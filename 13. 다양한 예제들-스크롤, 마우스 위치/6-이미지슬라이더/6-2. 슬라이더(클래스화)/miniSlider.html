@@ -11,8 +11,29 @@
     <script type="module">
       import MiniSlider from "./MiniSlider.js";
 
+      const data = [
+        {
+          id: "asxasfqweqwr0",
+          title: "이미지 A0",
+          src: "./img/a0.png",
+        },
+        {
+          id: 1,
+          title: "이미지 A01",
+          src: "./img/a1.png",
+        },
+        {
+          id: 2,
+          title: "이미지 A02",
+          src: "./img/a2.png",
+        },
+      ];
+
       new MiniSlider({
         containerSelector: "#temp",
+        // data: data(key: value 변수 값이 같으면 하나만 써도 됨)
+        data,
+        interval: 3000,
       });
     </script>
   </body>
