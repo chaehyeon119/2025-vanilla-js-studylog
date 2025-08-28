@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>문서 제목</title>
+  </head>
+  <body>
+    밖에 있는 index.html
+    <p id="result"></p>
+
+    <script>
+      (async () => {
+        const res = await fetch("/api/hello");
+        if (!res.ok) throw new Error("에러발생");
+        const data = await res.json();
+        console.log(data);
+        document.getElementById("result").textContent = data.message;
+      })();
+    </script>
+  </body>
+</html>
