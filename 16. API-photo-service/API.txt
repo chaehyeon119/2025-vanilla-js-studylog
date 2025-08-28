@@ -1,0 +1,17 @@
+https://photo-upload-test.onrender.com
+
+업로드 파일 저장 폴더
+/uploads
+
+
+[POST]
+/api/upload
+/api/choose-frame
+/api/delivery
+
+[GET]
+/api/photos
+
+
+[DELETE]
+/api/photos/:filename

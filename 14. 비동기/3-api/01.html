@@ -1,15 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  <script>
-    // https://free-apis.github.io
-    // https://dog.ceo/dog-api/
-    
-  </script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button class="btn">개 사진 보기</button>
+    <!-- 이미지가 계속 쌓이는 것을 방지 -->
+    <div id="photo"></div>
+    <script>
+      // https://free-apis.github.io
+      // https://dog.ceo/dog-api/
+      const URL = "https://dog.ceo/api/breeds/image/random";
+
+      async function showDogPic() {
+        try {
+          const res = await fetch(URL);
+          console.log(res.ok);
+          if (!res.ok) {
+            throw new Error("오류 발생!");
+          }
+          const data = await res.json();
+          console.log(data);
+
+          // const image = document.createElement('img');
+          const image = new Image();
+          image.src = data.message;
+          // 아래 코드는 실행할 때마다 photo를 연산하는 작업을 해서 비효율/상수에 담아서 쓰는게 더 빠름(팩트 체크 필요)
+          document.getElementById("photo").replaceChildren(image);
+        } catch (err) {
+          console.error(err);
+        }
+      }
+
+      // 한 번 쓰는 건 아래처럼 써도 괜찮지만, 지저분해 보임 => 변수처리 해도 됨
+      document.querySelector(".btn").addEventListener("click", showDogPic);
+      (async () => {
+        try {
+          const
+        }
+      )}()
+    </script>
+  </body>
 </html>
