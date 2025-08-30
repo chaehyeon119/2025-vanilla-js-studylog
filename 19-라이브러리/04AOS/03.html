@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <title>AOS 순차 등장 & 앵커배치</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+</head>
+<body>
+  <section style="height:120vh;display:grid;place-items:center;background:#f7f7f7">
+    <h2>아래로 스크롤 ↓</h2>
+  </section>
+
+  <section style="max-width:860px;margin:40px auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;">
+    <div data-aos="fade-up" data-aos-anchor-placement="top-bottom" data-aos-delay="0"
+         style="padding:28px;background:#e6f4ff;border-radius:12px;text-align:center;">카드 1</div>
+    <div data-aos="fade-up" data-aos-anchor-placement="top-bottom" data-aos-delay="100"
+         style="padding:28px;background:#e6f4ff;border-radius:12px;text-align:center;">카드 2</div>
+    <div data-aos="fade-up" data-aos-anchor-placement="top-bottom" data-aos-delay="200"
+         style="padding:28px;background:#e6f4ff;border-radius:12px;text-align:center;">카드 3</div>
+    <div data-aos="fade-up" data-aos-anchor-placement="top-bottom" data-aos-delay="300"
+         style="padding:28px;background:#e6f4ff;border-radius:12px;text-align:center;">카드 4</div>
+  </section>
+
+  <div style="height:60vh"></div>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      duration: 700,
+      easing: 'ease-out-quart',
+      mirror: true // 스크롤 위로 돌아갈 때 역재생 원하면 true
+    });
+  </script>
+</body>
+</html>

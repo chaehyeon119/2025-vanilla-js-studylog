@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>“n분 전/후” + 월/일의 시작·끝</title>
+</head>
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.11/dayjs.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.11/plugin/relativeTime.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.11/locale/ko.js"></script>
+  <script>
+    dayjs.extend(window.dayjs_plugin_relativeTime);
+    dayjs.locale('ko');
+
+    console.log('3분 전:', dayjs().subtract(3, 'minute').fromNow()); // "3분 전"
+    console.log('2일 후:', dayjs().add(2, 'day').fromNow());          // "2일 후"
+
+    const now = dayjs();
+    console.log('이번 달 시작:', now.startOf('month').format('YYYY-MM-DD'));
+    console.log('오늘 끝(하루의 마지막 순간):', now.endOf('day').format('YYYY-MM-DD HH:mm:ss'));
+  </script>
+</body>
+</html>

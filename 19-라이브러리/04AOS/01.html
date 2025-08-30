@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <title>AOS 기본</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+</head>
+<body>
+  <div style="height:80vh"></div>
+
+  <h1 data-aos="fade-up" style="text-align:center;margin:40px 0;">안녕하세요 AOS 👋</h1>
+  <div data-aos="zoom-in" style="margin:24px auto;padding:40px;max-width:560px;background:#f5f5f5;border-radius:12px;text-align:center;">
+    스크롤하면 등장합니다 (zoom-in)
+  </div>
+  <div data-aos="flip-left" style="margin:24px auto;padding:40px;max-width:560px;background:#eef6ff;border-radius:12px;text-align:center;">
+    또 하나의 카드 (flip-left)
+  </div>
+
+  <div style="height:60vh"></div>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>AOS.init();</script>
+</body>
+</html>

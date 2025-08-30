@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <title>Toastify 옵션</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <style>
+    body { font-family: system-ui, sans-serif; padding: 24px; }
+    .row { display:flex; gap:10px; flex-wrap:wrap; margin: 12px 0; }
+    button { padding: 8px 16px; cursor: pointer; }
+    .hint { color:#666; font-size:.9rem; }
+  </style>
+</head>
+<body>
+  <h1>Toastify — 옵션</h1>
+  <p class="hint">위치/중력/닫기/링크/스타일/오프셋/아바타/포커스 유지 등</p>
+
+  <div class="row">
+    <button id="topRight">Top-Right</button>
+    <button id="bottomLeft">Bottom-Left</button>
+    <button id="closable">닫기 버튼</button>
+    <button id="link">링크(새 창)</button>
+    <button id="gradient">그라데이션 배경</button>
+    <button id="offset">오프셋(우측/하단 여백)</button>
+    <button id="avatar">아바타 포함</button>
+    <button id="focus">stopOnFocus</button>
+  </div>
+
+  <script>
+    // Top-Right (기본)
+    document.getElementById('topRight').addEventListener('click', () => {
+      Toastify({
+        text: "오른쪽 위 입니다.",
+        gravity: "top",      // 'top' | 'bottom'
+        position: "right",   // 'left' | 'center' | 'right'
+        duration: 2500
+      }).showToast();
+    });
+
+    // Bottom-Left
+    document.getElementById('bottomLeft').addEventListener('click', () => {
+      Toastify({
+        text: "왼쪽 아래 입니다.",
+        gravity: "bottom",
+        position: "left",
+        duration: 2500
+      }).showToast();
+    });
+
+    // 닫기 버튼
+    document.getElementById('closable').addEventListener('click', () => {
+      Toastify({
+        text: "닫기 버튼이 있어요.",
+        close: true,         // X 버튼
+        duration: 0,         // 0 = 자동사라짐 없음
+      }).showToast();
+    });
+
+    // 링크(새 창)
+    document.getElementById('link').addEventListener('click', () => {
+      Toastify({
+        text: "공식 문서로 이동",
+        destination: "https://apvarun.github.io/toastify-js/",
+        newWindow: true,     // 새 창
+        close: true
+      }).showToast();
+    });
+
+    // 커스텀 스타일 (그라데이션)
+    document.getElementById('gradient').addEventListener('click', () => {
+      Toastify({
+        text: "그라데이션 배경!",
+        duration: 3000,
+        style: {
+          background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+          color: "#fff"
+        }
+      }).showToast();
+    });
+
+    // 오프셋
+    document.getElementById('offset').addEventListener('click', () => {
+      Toastify({
+        text: "우측 24px / 하단 80px",
+        gravity: "bottom",
+        position: "right",
+        offset: { x: 24, y: 80 }, // px
+        duration: 3000
+      }).showToast();
+    });
+
+    // 아바타 (작은 썸네일)
+    document.getElementById('avatar').addEventListener('click', () => {
+      Toastify({
+        text: "아바타 + 텍스트",
+        avatar: "https://avatars.githubusercontent.com/u/4090264?v=4",
+        duration: 3000,
+        gravity: "top",
+        position: "left"
+      }).showToast();
+    });
+
+    // stopOnFocus: 마우스 올리면 타이머 정지
+    document.getElementById('focus').addEventListener('click', () => {
+      Toastify({
+        text: "마우스를 올리면 사라지지 않아요.",
+        stopOnFocus: true,
+        duration: 4000
+      }).showToast();
+    });
+  </script>
+</body>
+</html>

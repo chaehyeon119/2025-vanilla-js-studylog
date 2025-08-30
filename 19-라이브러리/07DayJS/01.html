@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>지금 시각을 문자열로 포맷하기</title>
+</head>
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.11/dayjs.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.11/locale/ko.js"></script>
+  <script>
+    // dayjs() 자체가 현재
+    dayjs.locale('ko'); // 한국어 요일/AM·PM
+    console.log('지금:', dayjs().format('YYYY-MM-DD HH:mm:ss'));
+    console.log('요일:', dayjs().format('dddd'));       // 목요일 등
+    console.log('오전/오후:', dayjs().format('A'));     // 오전 / 오후
+  </script>
+</body>
+</html>

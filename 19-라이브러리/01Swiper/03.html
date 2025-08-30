@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <title>여러 장(카드 슬라이드) + 반응형</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Swiper CSS CDN -->
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: system-ui, sans-serif; margin: 0; padding: 24px; }
+    .swiper {
+      width: min(960px, 100%);
+      height: 360px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 6px 18px rgba(0,0,0,.15);
+    }
+    .swiper-slide {
+      display: grid; place-items: center;
+      font-size: 32px; color: #fff; font-weight: 700;
+    }
+    .slide-1 { background: #5C7CFA; }
+    .slide-2 { background: #20C997; }
+    .slide-3 { background: #FF922B; }
+    .slide-4 { background: #E64980; }
+    .slide-5 { background: #9775FA; }
+  </style>
+</head>
+<body>
+  <!-- 슬라이더 마크업 규칙 (중요!) -->
+  <div class="swiper">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide slide-1">Slide 1</div>
+      <div class="swiper-slide slide-2">Slide 2</div>
+      <div class="swiper-slide slide-3">Slide 3</div>
+      <div class="swiper-slide slide-4">Slide 4</div>
+      <div class="swiper-slide slide-5">Slide 5</div>
+    </div>
+    <!-- 컨트롤(옵션): 페이지네이션/네비게이션/스크롤바 자리 -->
+    <div class="swiper-pagination"></div>
+    <div class="swiper-button-prev" aria-label="이전"></div>
+    <div class="swiper-button-next" aria-label="다음"></div>
+    <div class="swiper-scrollbar"></div>
+  </div>
+
+  <!-- Swiper JS CDN -->
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  <script>
+    const swiper = new Swiper('.swiper', {
+      loop: true,
+      spaceBetween: 16,    // 슬라이드 간격(px)
+      slidesPerView: 1.2,  // 살짝 다음 카드가 보이게 (모바일 카드 UI 느낌)
+
+      breakpoints: {
+        // 너비 기준으로 옵션 덮어씀
+        640: { slidesPerView: 2, spaceBetween: 16 },
+        960:{ slidesPerView: 3, spaceBetween: 24 },
+      },
+
+      pagination: { el: '.swiper-pagination', clickable: true },
+      navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+    });
+  </script>
+</body>
+</html>

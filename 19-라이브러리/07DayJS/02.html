@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>날짜 더하기/빼기 + 차이 계산</title>
+</head>
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.11/dayjs.min.js"></script>
+  <script>
+    const now = dayjs();
+    const sevenDaysLater = now.add(7, 'day');      // 7일 뒤
+    const twoHoursAgo    = now.subtract(2, 'hour'); // 2시간 전
+
+    console.log('지금:', now.format('YYYY-MM-DD HH:mm'));
+    console.log('7일 뒤:', sevenDaysLater.format('YYYY-MM-DD HH:mm'));
+    console.log('2시간 전:', twoHoursAgo.format('YYYY-MM-DD HH:mm'));
+
+    // 두 시각 사이 차이(정수, 단위: 'day'|'hour'|'minute' 등)
+    console.log('지금 ↔ 7일 뒤 (일수):', sevenDaysLater.diff(now, 'day')); // 7
+  </script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lodash - Arrays</title>
+</head>
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+  <script>
+    // 중복 제거
+    console.log('uniq:', _.uniq([1,1,2,3,3,4]));                  // → [1,2,3,4]
+
+    // 일정 크기로 쪼개기
+    console.log('chunk:', _.chunk([1,2,3,4,5], 2));               // → [[1,2],[3,4],[5]]
+
+    // falsy(0,"",false,null,undefined,NaN) 제거
+    console.log('compact:', _.compact([0,1,false,2,"",3,null]));  // → [1,2,3]
+
+    // 깊은 중첩 평탄화
+    console.log('flattenDeep:', _.flattenDeep([1,[2,[3,[4]]]]));  // → [1,2,3,4]
+  </script>
+</body>
+</html>

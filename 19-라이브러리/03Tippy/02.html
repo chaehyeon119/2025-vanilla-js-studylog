@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <title>Tippy 옵션</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/scale.css">
+  <script src="https://unpkg.com/@popperjs/core@2"></script>
+  <script src="https://unpkg.com/tippy.js@6"></script>
+</head>
+<body>
+  <div style="margin: 50px">
+    <button id="btn1">기본(위)</button>
+    <button id="btn2">아래</button>
+    <button id="btn3">클릭으로 열기</button>
+  </div>
+
+  <script>
+    tippy('#btn1', {
+      content: '기본 툴팁 (top)',
+      placement: 'top'
+    });
+
+    tippy('#btn2', {
+      content: 'light 테마 + 아래쪽 + 살짝 지연',
+      theme: 'light',
+      placement: 'bottom',
+      delay: [200, 0],     // [show, hide] ms
+      animation: 'shift-away',
+    });
+
+    tippy('#btn3', {
+      content: '버튼을 클릭하면 열리고, 다시 클릭하면 닫혀요',
+      trigger: 'click',
+      placement: 'right',
+      hideOnClick: true,
+    });
+  </script>
+</body>
+</html>

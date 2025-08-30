@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <title>AOS 옵션</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+</head>
+<body>
+  <div style="height:100vh"></div>
+
+  <div data-aos="fade-up" data-aos-duration="800" data-aos-easing="ease-out-cubic"
+       style="margin:16px auto;padding:36px;max-width:560px;background:#fff3cd;border-radius:12px;text-align:center;">
+    duration 800ms / easing: ease-out-cubic
+  </div>
+
+  <div data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000"
+       style="margin:16px auto;padding:36px;max-width:560px;background:#e2f0d9;border-radius:12px;text-align:center;">
+    delay 200ms / duration 1000ms
+  </div>
+
+  <div data-aos="fade-up" data-aos-duration="1200"
+       style="margin:16px auto;padding:36px;max-width:560px;background:#e7e9ff;border-radius:12px;text-align:center;">
+    한 번만 애니메이션 (once: true)
+  </div>
+
+  <div style="height:60vh"></div>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      once: true,     // 스크롤을 다시 올려도 재생하지 않음
+      offset: 100     // 트리거 지점(요소가 화면에 100px 들어오면)
+    });
+  </script>
+</body>
+</html>

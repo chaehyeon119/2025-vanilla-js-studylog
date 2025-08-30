@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lodash - Objects</title>
+</head>
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+  <script>
+    const user = { profile: { name: 'Alice' } };
+
+    // 안전 접근: 경로가 없어도 에러 없이 기본값 사용
+    console.log('get name:', _.get(user, 'profile.name'));  // 'Alice'
+    console.log('get phone w/ default:', _.get(user, 'profile.phone', '없음')); // '없음'
+
+    // 안전 설정: 중간 경로가 없어도 만들어 줌 (원본 변경)
+    _.set(user, 'profile.phone', '010-1234-5678');
+    console.log('after set:', user.profile.phone); // '010-1234-5678'
+
+    // 깊은 병합: {}를 타겟으로 쓰면 원본 보존
+    const defaults = { theme:{ dark:false }, lang:'ko' };
+    const prefs    = { theme:{ dark:true } };
+    const merged   = _.merge({}, defaults, prefs);
+    console.log('merge:', merged); // → { theme:{ dark:true }, lang:'ko' }
+
+    // 깊은 복사: 참조 분리
+    const original = { a:{ b:1 } };
+    const copy = _.cloneDeep(original);
+    copy.a.b = 999;
+    console.log('cloneDeep:', { original: original.a.b, copy: copy.a.b }); // → {1, 999}
+  </script>
+</body>
+</html>
