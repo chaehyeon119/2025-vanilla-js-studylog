@@ -5,7 +5,7 @@ import { request } from "./components/api.js";
 
 export default function App($app) {
   this.state = {
-    currentTab: "all",
+    currentTab: window.location.pathname.replace("/", "") || "all",
     photos: [],
   };
 
@@ -13,11 +13,8 @@ export default function App($app) {
     $app,
     initialState: "",
     onClick: async (name) => {
-      this.setState({
-        ...this.state,
-        currentTab: name,
-        photos: await request(name === "all" ? "" : name),
-      });
+      history.pushState(null, `${name} 사진`, name);
+      this.updateContent(name);
     },
   });
 
@@ -29,16 +26,26 @@ export default function App($app) {
     content.setState(this.state.photos);
   };
 
-  const init = async () => {
+  this.updateContent = async (tabName) => {
     try {
-      const initialPhotos = await request();
+      const currentTab = tabName === "all" ? "" : tabName;
+      const photos = await request(tabName);
       this.setState({
         ...this.state,
-        photos: initialPhotos,
+        currentTab: tabName,
+        photos: photos,
       });
     } catch (error) {
       console.log(error);
     }
+  };
+
+  window.addEventListener("popstate", () => {
+    this.updateContent(window.location.pathname.replace("/", "") || "all");
+  });
+
+  const init = async () => {
+    this.updateContent(this.state.currentTab);
   };
 
   init();
